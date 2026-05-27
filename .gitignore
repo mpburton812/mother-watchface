@@ -1,0 +1,33 @@
+# Android / Gradle
+.gradle/
+build/
+local.properties
+*.iml
+.idea/
+.cxx/
+captures/
+.externalNativeBuild/
+
+# Watch face build outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Env & secrets
+.env
+.env.*
+*.keystore
+!debug.keystore
+
+# Export / generated assets (keep sources, ignore bulk output)
+tools/export/output/
+*.tmp
+
+# Logs
+*.log
