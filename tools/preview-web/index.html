@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=456, height=456" />
+    <title>MU-TH-UR Preview (456×456)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div id="stage" class="round-mask" data-export-root>
+        <div id="mother_container">
+          <div id="lines_container"></div>
+        </div>
+      </div>
+
+      <div id="controls" aria-hidden="true" data-export-hide>
+        <label>
+          Scene
+          <select id="scene-select">
+            <option value="boot">boot</option>
+            <option value="demo">demo</option>
+            <option value="line">line</option>
+          </select>
+        </label>
+        <button type="button" id="play-btn">Play sequence</button>
+        <span id="status" role="status"></span>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="sequences.js"></script>
+    <script src="effects.js"></script>
+    <script src="main.js"></script>
+  </body>
+</html>

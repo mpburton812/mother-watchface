@@ -6,7 +6,14 @@ Green phosphor terminal aesthetics: boot sequences, typing-line reveals, and cle
 
 ## Status
 
-Early planning and scaffolding. The CodePen effect is a reference implementation; on-watch delivery uses WFF (declarative XML + assets), not in-watch JavaScript.
+**Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Full WFF XML packaging is not started yet.
+
+| Tool | Purpose |
+|------|---------|
+| [tools/preview-web/](tools/preview-web/) | Browser preview — `Line`, `ClearScreen`, `BootScreen`, `Mother` sequencer |
+| [tools/export/](tools/export/) | Playwright frame capture → ffmpeg WebP |
+
+The CodePen remains the visual reference; on-watch delivery uses WFF (declarative XML + assets), not in-watch JavaScript.
 
 ## Target device
 
@@ -17,17 +24,34 @@ Early planning and scaffolding. The CodePen effect is a reference implementation
 | OS | Wear OS 6 |
 | Format | Watch Face Format v4 |
 
-## Planned layout
+## Repository layout
 
 ```
 ├── tools/
-│   ├── preview-web/     # Effect tuning & frame export (from CodePen logic)
-│   └── export/          # Pipeline to animated WebP for WFF
-├── watchface/           # WFF XML, fonts, assets, Android package
+│   ├── preview-web/     # 456×456 GSAP preview + export hooks
+│   └── export/          # Playwright → PNG → ffmpeg WebP
+├── watchface/           # WFF XML, fonts, assets, Android package (future)
 └── assets-src/          # Source art (optional)
 ```
 
-## Development
+## Quick start (Tier B)
+
+**Preview** — open [tools/preview-web/index.html](tools/preview-web/index.html) or:
+
+```powershell
+cd tools\preview-web
+npx --yes serve -p 5173
+```
+
+**Export frames** — see [tools/export/README.md](tools/export/README.md):
+
+```powershell
+cd tools\export
+npm install
+npm run export -- --scene boot
+```
+
+## Development (on-device, later)
 
 1. Install [Android Studio](https://developer.android.com/studio) with Wear OS / WFF support, or [Samsung Watch Face Studio](https://developer.samsung.com/watch-face-studio/overview.html).
 2. Sideload the built APK to a Pixel Watch 4 (USB debugging or Wi‑Fi ADB).

@@ -1,0 +1,277 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #111;
+  font-family: "Share Tech Mono", monospace;
+  color: #7af042;
+}
+
+#app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+#stage {
+  --size: 456px;
+  width: var(--size);
+  height: var(--size);
+  background: #000;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+
+#stage.round-mask {
+  border-radius: 50%;
+}
+
+#mother_container {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  overflow: hidden;
+  font-size: 11px;
+  color: #7af042;
+}
+
+#mother_container > div {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+#lines_container {
+  width: 72%;
+  height: 68%;
+  padding: 12px;
+  align-self: center;
+  justify-self: center;
+}
+
+.line {
+  --grad-offset-scale: 1;
+  display: none;
+  background: transparent;
+  position: relative;
+}
+
+.line.is-visible {
+  display: grid;
+}
+
+.line > .grad,
+.line > .copy {
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.line .copy {
+  justify-self: start;
+  position: relative;
+  line-height: 1.35;
+}
+
+.line .copy .char {
+  opacity: 0;
+  visibility: hidden;
+  display: inline-block;
+}
+
+.line .grad {
+  filter: blur(3px);
+  min-height: 1em;
+  background-image: linear-gradient(
+    90deg,
+    rgba(69, 86, 60, 0) calc(0% + (100% * var(--grad-offset-scale))),
+    #7df14a calc(25% + (100% * var(--grad-offset-scale))),
+    #fff calc(45% + (100% * var(--grad-offset-scale))),
+    #fff calc(55% + (100% * var(--grad-offset-scale))),
+    #7df14a calc(75% + (100% * var(--grad-offset-scale))),
+    rgba(69, 86, 60, 0) calc(100% + (100% * var(--grad-offset-scale)))
+  );
+  background-repeat: no-repeat;
+  transform: scaleY(0.45);
+}
+
+.line .underline {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #7af042;
+  opacity: 0;
+}
+
+.clear_screen_container {
+  display: grid;
+  position: absolute;
+  inset: 0;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+}
+
+.clear_screen_container > div {
+  background-color: #80ff10;
+  opacity: 0;
+}
+
+.boot_screen {
+  position: absolute;
+  inset: 0;
+  display: none;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr;
+  align-items: center;
+  justify-items: center;
+  z-index: 10;
+}
+
+.boot_screen.is-active {
+  display: grid;
+}
+
+.random_chars_screen {
+  width: 88%;
+  height: 72%;
+  position: relative;
+  overflow: hidden;
+  grid-row: 1;
+  grid-column: 1;
+}
+
+.boot_screen .line_elm {
+  display: grid;
+  grid-template-rows: 1fr;
+  margin: 1px 0;
+}
+
+.boot_screen .section {
+  display: inline-block;
+  opacity: 0;
+  grid-row: 1;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+.boot_screen .section .char {
+  opacity: 0;
+}
+
+.bars_container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.bar_elm {
+  position: absolute;
+  background: #80ff10;
+  opacity: 0;
+}
+
+.bar_glow {
+  width: 100%;
+  height: 100%;
+  box-shadow:
+    0 0 5px #80ff10,
+    0 0 12px #80ff10,
+    0 0 18px #80ff10;
+  opacity: var(--glow-opacity, 0);
+}
+
+.details_screen {
+  display: grid;
+  grid-template-rows: repeat(8, 1fr);
+  grid-template-columns: 1fr;
+  grid-row: 1;
+  grid-column: 1;
+  width: 88%;
+  height: 72%;
+  text-transform: uppercase;
+  font-size: 8px;
+  z-index: 2;
+}
+
+.detail_line {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  align-items: center;
+  --text-shadow-opacity: 0;
+  text-shadow: 0 0 6px rgba(50, 100, 6, var(--text-shadow-opacity));
+}
+
+.detail_line .char {
+  opacity: 0;
+}
+
+.detail_copy span {
+  color: #80ff10;
+}
+
+#controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 14px;
+  color: #ccc;
+}
+
+#controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+#controls select,
+#play-btn {
+  font-family: inherit;
+  font-size: 14px;
+  background: #1a1a1a;
+  color: #7af042;
+  border: 1px solid #80ff10;
+  padding: 0.35rem 0.65rem;
+  cursor: pointer;
+}
+
+#play-btn:hover {
+  background: #80ff10;
+  color: #000;
+}
+
+#status {
+  font-size: 12px;
+  color: #666;
+}
+
+body.export-mode #controls {
+  display: none !important;
+}
+
+body.export-mode {
+  background: #000;
+  padding: 0;
+}
+
+body.export-mode #app {
+  min-height: auto;
+  padding: 0;
+}

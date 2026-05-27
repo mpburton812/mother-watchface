@@ -25,6 +25,9 @@ desktop.ini
 *.keystore
 !debug.keystore
 
+# Node
+node_modules/
+
 # Export / generated assets (keep sources, ignore bulk output)
 tools/export/output/
 *.tmp
