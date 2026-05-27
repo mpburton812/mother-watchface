@@ -4,6 +4,8 @@ A dynamic Wear OS watch face for **Google Pixel Watch 4**, inspired by the [Alie
 
 Green phosphor terminal aesthetics: boot sequences, typing-line reveals, and clear-screen flashes—adapted for a 456×456 round display on Wear OS 6 using the [Watch Face Format (WFF)](https://developer.android.com/training/wearables/wff).
 
+**Resuming on another machine?** See [docs/HANDOFF.md](docs/HANDOFF.md) for status, commits, env notes, and next steps.
+
 ## Status
 
 **Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Full WFF XML packaging is not started yet.
