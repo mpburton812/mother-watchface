@@ -26,8 +26,14 @@ Set-Location (Split-Path $PSScriptRoot -Parent)
 $user = & $gh api user -q .login
 $fullName = "$user/$RepoName"
 
-$null = & $gh repo view $fullName 2>&1
-if ($LASTEXITCODE -eq 0) {
+# gh repo view writes to stderr when missing; do not use 2>&1 with $ErrorActionPreference Stop
+$prevEap = $ErrorActionPreference
+$ErrorActionPreference = "Continue"
+& $gh repo view $fullName 2>$null | Out-Null
+$repoExists = ($LASTEXITCODE -eq 0)
+$ErrorActionPreference = $prevEap
+
+if ($repoExists) {
     Write-Host "Repository already exists: https://github.com/$fullName"
 } else {
     & $gh repo create $RepoName `
