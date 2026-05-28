@@ -37,6 +37,7 @@ const KNOWN_SCENES = [
   "clear",
   "demo",
   "full",
+  "computer-text",
 ];
 
 const SCENE_MAX_SECONDS = {
@@ -46,6 +47,7 @@ const SCENE_MAX_SECONDS = {
   clear: 4,
   demo: 45,
   full: 180,
+  "computer-text": 18,
 };
 
 function parseArgs(argv) {
@@ -114,7 +116,7 @@ MU-TH-UR frame export
   node export.js --all --include-full
 
 Options:
-  --scene <name>       boot | line | clear | boot-ambient | demo | full
+  --scene <name>       boot | line | clear | boot-ambient | computer-text | demo | full
   --all                export ${DEFAULT_BATCH_SCENES.join(", ")} (not full)
   --include-full       with --all, also export full (long)
   --fps <n>            capture rate (default: ${DEFAULT_FPS})

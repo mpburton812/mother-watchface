@@ -1,6 +1,14 @@
 /**
  * Simplified MU-TH-UR effects (CodePen qBoVGWy) — manual char split, no SplitText.
+ * ComputerTextLine: Alien (1979) FROLIC-style glyph scramble → settle (see docs/COMPUTER-TEXT-EFFECT.md).
  */
+
+/** Nostromo terminal glyph pool (BootScreen / film-adjacent). */
+const SCRAMBLE_CHARS = "AXYI@20K59VDH}#U1^>+E".split("");
+
+function randomScrambleChar() {
+  return gsap.utils.random(SCRAMBLE_CHARS);
+}
 
 function splitChars(element) {
   const text = element.textContent;
@@ -105,6 +113,130 @@ class Line {
     if (this.has_underline) {
       tl.set(this.underline_elm, { opacity: 1 }, "<");
     }
+    return tl;
+  }
+}
+
+/**
+ * Alien 1979 computer text: rapid random glyphs per position, then lock with phosphor flash.
+ * Optional blinking block cursor after the line settles.
+ */
+class ComputerTextLine {
+  constructor(opts) {
+    this.line_container = opts.line_container;
+    this.copy = opts.copy || "HELLO WORLD!";
+    this.delay = opts.delay || 0;
+    this.has_underline =
+      typeof opts.has_underline === "boolean" ? opts.has_underline : false;
+    this.scramble_cycles = opts.scramble_cycles ?? 7;
+    this.char_stagger = opts.char_stagger ?? 0.055;
+    this.scramble_tick = opts.scramble_tick ?? 0.024;
+    this.show_cursor =
+      typeof opts.show_cursor === "boolean" ? opts.show_cursor : true;
+    this.build();
+  }
+
+  build() {
+    this.line_elm = document.createElement("div");
+    this.line_elm.classList.add("line", "computer-text-line");
+
+    this.copy_elm = document.createElement("div");
+    this.copy_elm.classList.add("copy");
+    this.copy_elm.textContent = this.copy;
+    this.line_elm.appendChild(this.copy_elm);
+
+    this.line_container.appendChild(this.line_elm);
+    this.chars = splitChars(this.copy_elm);
+
+    this.underline_elm = document.createElement("div");
+    this.underline_elm.classList.add("underline");
+    this.copy_elm.appendChild(this.underline_elm);
+
+    if (this.show_cursor) {
+      this.cursor_elm = document.createElement("span");
+      this.cursor_elm.classList.add("computer-cursor");
+      this.cursor_elm.textContent = "_";
+      this.copy_elm.appendChild(this.cursor_elm);
+    }
+
+    gsap.set(this.chars, { opacity: 0 });
+    if (this.cursor_elm) {
+      gsap.set(this.cursor_elm, { opacity: 0 });
+    }
+  }
+
+  /** @param {HTMLElement} span @param {string} finalChar */
+  addCharScramble(tl, span, finalChar, at) {
+    const display =
+      finalChar === " " ? "\u00a0" : finalChar === "\u00a0" ? "\u00a0" : finalChar;
+    const cycles = this.scramble_cycles + Math.floor(Math.random() * 3);
+    let t = at;
+    for (let i = 0; i < cycles; i++) {
+      const isLast = i === cycles - 1;
+      tl.set(
+        span,
+        {
+          opacity: 1,
+          visibility: "visible",
+          textContent: isLast ? display : randomScrambleChar(),
+          color: "#fff",
+          backgroundColor: isLast ? "#7df14a" : "transparent",
+          textShadow: isLast
+            ? "0px 0px 8px rgba(125,241,74,0.9)"
+            : "0px 0px 4px rgba(255,255,255,0.35)",
+        },
+        t
+      );
+      t += this.scramble_tick;
+    }
+    tl.set(
+      span,
+      {
+        textContent: display,
+        color: "#7af042",
+        backgroundColor: "transparent",
+        textShadow: "0px 0px 0px rgba(255,255,255,0)",
+      },
+      t
+    );
+    return t + 0.04;
+  }
+
+  animate() {
+    const tl = gsap
+      .timeline({ delay: this.delay })
+      .set(this.line_elm, { display: "grid", className: "line computer-text-line is-visible" });
+
+    let cursorAt = 0;
+    this.chars.forEach((span, index) => {
+      const final =
+        this.copy[index] === " " || this.copy[index] === undefined
+          ? " "
+          : this.copy[index];
+      const start = index * this.char_stagger;
+      cursorAt = this.addCharScramble(tl, span, final, start);
+    });
+
+    if (this.has_underline) {
+      tl.set(this.underline_elm, { opacity: 1 }, cursorAt * 0.85);
+    }
+
+    if (this.cursor_elm) {
+      tl.set(this.cursor_elm, { opacity: 1 }, cursorAt)
+        .to(
+          this.cursor_elm,
+          {
+            opacity: 0,
+            duration: 0.35,
+            repeat: 5,
+            yoyo: true,
+            ease: "steps(1)",
+          },
+          cursorAt + 0.05
+        )
+        .set(this.cursor_elm, { opacity: 1 });
+    }
+
     return tl;
   }
 }
@@ -469,6 +601,9 @@ class Mother {
         case "line":
           c = new Line({ ...lineOpts, ...cmd });
           break;
+        case "computer-text":
+          c = new ComputerTextLine({ ...lineOpts, ...cmd });
+          break;
         case "clear":
           c = new ClearScreen({ ...clearOpts, ...cmd });
           break;
@@ -518,5 +653,12 @@ class Mother {
 }
 
 if (typeof window !== "undefined") {
-  window.MotherEffects = { Line, LineBreak, ClearScreen, BootScreen, Mother };
+  window.MotherEffects = {
+    Line,
+    ComputerTextLine,
+    LineBreak,
+    ClearScreen,
+    BootScreen,
+    Mother,
+  };
 }

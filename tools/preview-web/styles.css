@@ -158,6 +158,19 @@ body {
   opacity: 0;
 }
 
+/* Alien 1979 decode line — no gradient sweep; glyph scramble only */
+.line.computer-text-line .copy .char {
+  visibility: visible;
+}
+
+.line.computer-text-line .copy .computer-cursor {
+  display: inline-block;
+  margin-left: 0.05em;
+  color: var(--mother-green-grad);
+  opacity: 0;
+  font-weight: 400;
+}
+
 .clear_screen_container {
   pointer-events: none;
 }

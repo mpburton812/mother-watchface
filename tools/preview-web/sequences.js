@@ -1,4 +1,4 @@
-/** @typedef {{ type: string, copy?: string, delay?: number, has_underline?: boolean, t?: number }} Cmd */
+/** @typedef {{ type: string, copy?: string, delay?: number, has_underline?: boolean, t?: number, show_cursor?: boolean, scramble_cycles?: number }} Cmd */
 
 /** CodePen qBoVGWy cmd_seq — used by `full` scene. */
 const CODEPEN_CMD_SEQ = [
@@ -113,6 +113,35 @@ const MOTHER_SEQUENCES = {
 
   /** Ambient / AOP: boot animation only, no dialogue (export at 8–15 fps). */
   "boot-ambient": [{ type: "boot" }, { type: "delay", t: 1.2 }],
+
+  /**
+   * Alien (1979) computer-text decode — glyph scramble → settle + cursor.
+   * Reference: https://www.youtube.com/watch?v=Mn7A1vfs8m0
+   */
+  "computer-text": [
+    { type: "delay", t: 0.4 },
+    {
+      type: "computer-text",
+      copy: "INTERFACE 2037 READY FOR INQUIRY",
+      has_underline: true,
+    },
+    { type: "delay", t: 1.2 },
+    {
+      type: "computer-text",
+      copy: "MU-TH-UR 6000 SERIES 2.1 TERMINAL",
+      has_underline: true,
+      delay: 0.15,
+    },
+    { type: "delay", t: 1 },
+    {
+      type: "computer-text",
+      copy: "WHAT IS SPECIAL ORDER 937",
+      has_underline: true,
+      show_cursor: true,
+    },
+    { type: "delay", t: 1.5 },
+    { type: "clear" },
+  ],
 };
 
 if (typeof window !== "undefined") {

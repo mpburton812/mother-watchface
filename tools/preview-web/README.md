@@ -2,6 +2,8 @@
 
 Browser preview of the [CodePen MU-TH-UR UI](https://codepen.io/tkmoney/pen/qBoVGWy), scaled for **Pixel Watch 4** (456×456 round). Uses **GSAP 3.12.5** from jsDelivr CDN and **manual character splitting** (no SplitText).
 
+> **Branch `feature/computer-text-effect`:** Adds the [Alien 1979 computer scene](https://www.youtube.com/watch?v=Mn7A1vfs8m0) **glyph scramble → settle** text effect as `ComputerTextLine` and scene `computer-text`. See [docs/COMPUTER-TEXT-EFFECT.md](../../docs/COMPUTER-TEXT-EFFECT.md).
+
 ## Dependencies
 
 | Package | Version | URL |
@@ -34,7 +36,7 @@ Then open http://localhost:5173
 
 ## Controls
 
-- **Scene** — `boot`, `boot-ambient` (boot only, for AOP), `clear` (flash only), `line`, `demo`, `full` (CodePen `cmd_seq`)
+- **Scene** — `boot`, `boot-ambient` (boot only, for AOP), `clear` (flash only), `line`, `computer-text` (Alien decode), `demo`, `full` (CodePen `cmd_seq`)
 - **Safe zone (90%)** — dashed circle at 90% diameter for PW4 content bounds; also via `?safezone=1`
 - **Play sequence** — runs the selected scene
 
@@ -50,7 +52,7 @@ The ring is visual only and is not captured when `export=1`.
 Add query params for headless capture (used by `tools/export`):
 
 - `?export=1` — hides UI chrome, black page background
-- `?scene=boot` — sequence name (`boot`, `boot-ambient`, `clear`, `line`, `demo`, `full`)
+- `?scene=boot` — sequence name (`boot`, `boot-ambient`, `clear`, `line`, `computer-text`, `demo`, `full`)
 - `?autoplay=1` — start on load (after fonts)
 
 Example:
