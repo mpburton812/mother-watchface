@@ -107,6 +107,12 @@ const MOTHER_SEQUENCES = {
     { type: "line", copy: "INTERFACE 2037 READY FOR INQUIRY", has_underline: true },
     { type: "delay", t: 1 },
   ],
+
+  /** Short ClearScreen flash only (WFF transition asset). */
+  clear: [{ type: "clear" }, { type: "delay", t: 0.8 }],
+
+  /** Ambient / AOP: boot animation only, no dialogue (export at 8–15 fps). */
+  "boot-ambient": [{ type: "boot" }, { type: "delay", t: 1.2 }],
 };
 
 if (typeof window !== "undefined") {

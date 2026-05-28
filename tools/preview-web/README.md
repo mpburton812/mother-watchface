@@ -34,7 +34,7 @@ Then open http://localhost:5173
 
 ## Controls
 
-- **Scene** — `boot` (short export loop), `demo` (dialogue subset), `full` (CodePen `cmd_seq`), `line` (single line test)
+- **Scene** — `boot`, `boot-ambient` (boot only, for AOP), `clear` (flash only), `line`, `demo`, `full` (CodePen `cmd_seq`)
 - **Safe zone (90%)** — dashed circle at 90% diameter for PW4 content bounds; also via `?safezone=1`
 - **Play sequence** — runs the selected scene
 
@@ -50,7 +50,7 @@ The ring is visual only and is not captured when `export=1`.
 Add query params for headless capture (used by `tools/export`):
 
 - `?export=1` — hides UI chrome, black page background
-- `?scene=boot` — sequence name (`boot`, `demo`, `full`, `line`)
+- `?scene=boot` — sequence name (`boot`, `boot-ambient`, `clear`, `line`, `demo`, `full`)
 - `?autoplay=1` — start on load (after fonts)
 
 Example:

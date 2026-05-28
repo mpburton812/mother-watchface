@@ -6,6 +6,8 @@
   "description": "Frame capture for MU-TH-UR watch face preview → WFF WebP assets",
   "scripts": {
     "export": "node export.js",
+    "export:all": "node export.js --all",
+    "webp": "node assemble-webp.js",
     "postinstall": "npx playwright install chromium"
   },
   "dependencies": {

@@ -8,7 +8,7 @@ Green phosphor terminal aesthetics: boot sequences, typing-line reveals, and cle
 
 ## Status
 
-**Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Full WFF XML packaging is not started yet.
+**Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Phase 2 ships committed WebPs under [`assets-src/webp/`](assets-src/webp/). Full WFF XML packaging is Phase 3.
 
 | Tool | Purpose |
 |------|---------|
@@ -50,8 +50,10 @@ npx --yes serve -p 5173
 ```powershell
 cd tools\export
 npm install
-npm run export -- --scene boot
+node export.js --all
 ```
+
+Committed WebPs: `assets-src/webp/*.webp` (see [assets-src/webp/README.md](assets-src/webp/README.md)).
 
 ## Development (on-device, later)
 
