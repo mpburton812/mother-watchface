@@ -80,6 +80,8 @@ body {
 }
 
 #mother_container {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: grid;
@@ -95,12 +97,84 @@ body {
   grid-column: 1;
 }
 
+/* Terminal box — matches WFF PartAnimatedImage 274×220 @ (91,72) */
 #lines_container {
-  width: 72%;
-  height: 68%;
-  padding: 12px;
-  align-self: center;
+  position: absolute;
+  left: 91px;
+  top: 72px;
+  width: 274px;
+  height: 220px;
+  padding: 10px 10px 36px;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#time_strip {
+  position: absolute;
+  left: 0;
+  top: 296px;
+  width: 456px;
+  height: 72px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  font-size: 52px;
+  pointer-events: none;
+}
+
+#time_strip .line.computer-text-line .copy {
+  text-align: center;
   justify-self: center;
+  letter-spacing: 0.08em;
+}
+
+#hud_footer {
+  position: absolute;
+  left: 101px;
+  top: 264px;
+  width: 254px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--mother-green);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 5;
+}
+
+#stage.show-hud-footer #hud_footer {
+  opacity: 1;
+}
+
+#layout-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0;
+}
+
+#stage.show-layout-hud #layout-overlay {
+  opacity: 1;
+}
+
+.layout-rect {
+  position: absolute;
+  border: 1px dashed rgba(128, 255, 16, 0.55);
+  box-sizing: border-box;
+  font-size: 9px;
+  color: rgba(128, 255, 16, 0.7);
+  padding: 2px 4px;
+}
+
+.layout-rect::before {
+  content: attr(data-label);
+  position: absolute;
+  top: -14px;
+  left: 0;
+  white-space: nowrap;
 }
 
 .line {

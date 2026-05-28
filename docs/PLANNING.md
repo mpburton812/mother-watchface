@@ -29,17 +29,27 @@ The CodePen uses GSAP, DOM, and optional audio. On-watch behavior must be expres
 
 **Tier C** (maximum fidelity: full CodePen parity, long scripted loops, film audio, many simultaneous animated layers) fights WFF limits—**asset size, duration, ambient OPR**, and no GSAP on-device. Audio and long interactive scripts are especially risky for battery, licensing, and store policy. Tier B keeps creative work in the browser where GSAP is available, then **bakes** vetted loops into WebP for WFF.
 
-## Open decisions (not closed)
+## Layout decisions (closed 2026-05-27)
 
-Copy these into issue tracking or resolve before WFF packaging:
+456×456 round, ~90% safe zone. Preview overlay: `tools/preview-web/?layout=hud`.
+
+| Area | Choice | WFF / export |
+|------|--------|----------------|
+| **Active time** | **Option C** — decode/scramble once per wake | `time_decode.webp` @ y=296; live `DigitalClock` under overlay; WFF cannot run scramble logic in XML |
+| **Ambient time** | **Option D** — large centered `hh:mm` | y≈168, size 72, alpha 220; terminal WebPs dim/hidden |
+| **Complications** | **Option 3** — terminal HUD footer | `DATE …` / `BAT …` in box bottom (slots at y=264), not y=400 corners |
+| **Boot** | Cropped to terminal | 274×220 @ (91,72); export `SCENE_CROP` |
+| **Computer text** | WebP in terminal zone | `computer-text` scene → `computer_text.webp` |
+
+Constants: `tools/preview-web/layout.js`, `watchface/src/main/res/raw/watchface.xml`.
+
+## Open decisions (not closed)
 
 | Topic | Options / notes |
 |--------|------------------|
 | **Dialogue copy** | Subset of film lines vs. full CodePen script vs. shorter “boot only” loop for always-on |
 | **Animation frequency** | How often the face replays boot/demo vs. holds a static time state; impact on battery and burn-in |
-| **Scenes to ship** | `boot`, `demo`, `line` in preview-web today— which become on-watch states vs. dev-only |
-| **Ambient / OPR** | Simplified green-on-black static frame vs. dimmed WebP vs. time-only complication |
-| **Complications** | Date, steps, battery—or terminal-only |
+| **Scenes to ship** | `boot`, `demo`, `line`, `computer-text`, `time-decode` — which replay on wake vs. dev-only |
 | **Play Store** | Public listing vs. sideload-only; affects signing, privacy policy, asset licensing |
 | **License** | Repo README says TBD; CodePen may use third-party fonts/sounds—audit before distribution |
 | **Audio** | CodePen includes sound; WFF does not replicate Web Audio—drop or separate companion app |

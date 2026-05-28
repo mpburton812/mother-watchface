@@ -119,7 +119,7 @@ Creates **`mother-watchface`** on GitHub (if missing) and sets `origin`. **Fix i
 | Item | Status |
 |------|--------|
 | Gradle module `:watchface` | Root `settings.gradle.kts`, `minSdk`/`compileSdk` **36**, WFF **v4** manifest property |
-| `watchface.xml` | 456×456 round; boot WebP (`PartAnimatedImage`), ambient `boot_ambient`, digital `hh:mm`, DATE + WATCH_BATTERY slots |
+| `watchface.xml` | Terminal-cropped boot; `computer_text` + `time_decode` WebPs; HUD footer DATE/BAT; ambient large time |
 | Drawable deploy copies | `watchface/src/main/res/drawable-nodpi/*.webp` from `assets-src/webp/` |
 | Build / install docs | [watchface/README.md](../watchface/README.md) |
 
@@ -139,7 +139,7 @@ Package id: `com.mpburton812.motherwatchface`. APK outputs are gitignored.
 |------|--------|
 | `gradlew :watchface:assembleDebug` | Verified; set `JAVA_HOME` (Studio JBR) + `ANDROID_HOME` if `sdk.dir` not picked up (repo path has a space) |
 | `scripts/install-watchface.ps1` | adb device check → build → `install -r` → prints package; `-SetActive`, `-OpenPicker`, `-SkipBuild` |
-| WFF polish | Ambient `boot_ambient`; active `boot` **ON_VISIBLE** only (no per-minute replay); time + complication slots unchanged |
+| WFF polish | Layout v2: terminal crop, footer complications, time decode WebP, ambient centered time — see [PLANNING.md](PLANNING.md) |
 | Test checklist | [docs/PHASE4-TEST.md](PHASE4-TEST.md) — emulator, Pixel Watch 4 adb, OPR, battery |
 | Build / install docs | [watchface/README.md](../watchface/README.md) troubleshooting table |
 

@@ -38,7 +38,16 @@ const KNOWN_SCENES = [
   "demo",
   "full",
   "computer-text",
+  "time-decode",
 ];
+
+/** WFF-aligned capture crops (null = full 456×456 stage). */
+const SCENE_CROP = {
+  boot: { x: 91, y: 72, w: 274, h: 220 },
+  "boot-ambient": { x: 91, y: 72, w: 274, h: 220 },
+  "computer-text": { x: 91, y: 72, w: 274, h: 220 },
+  "time-decode": { x: 0, y: 296, w: 456, h: 72 },
+};
 
 const SCENE_MAX_SECONDS = {
   boot: 20,
@@ -48,6 +57,7 @@ const SCENE_MAX_SECONDS = {
   demo: 45,
   full: 180,
   "computer-text": 18,
+  "time-decode": 6,
 };
 
 function parseArgs(argv) {
@@ -116,7 +126,7 @@ MU-TH-UR frame export
   node export.js --all --include-full
 
 Options:
-  --scene <name>       boot | line | clear | boot-ambient | computer-text | demo | full
+  --scene <name>       boot | line | clear | boot-ambient | computer-text | time-decode | demo | full
   --all                export ${DEFAULT_BATCH_SCENES.join(", ")} (not full)
   --include-full       with --all, also export full (long)
   --fps <n>            capture rate (default: ${DEFAULT_FPS})
@@ -156,6 +166,7 @@ function buildManifest({
   frameCount,
   webpPath,
   previewUrl,
+  crop,
 }) {
   const durationMs = Math.round((frameCount / fps) * 1000);
   const manifest = {
@@ -168,16 +179,30 @@ function buildManifest({
     createdAt: new Date().toISOString(),
     previewUrl,
   };
+  if (crop) {
+    manifest.crop = crop;
+  }
   if (webpPath) {
     manifest.webpPath = webpPath;
   }
   return manifest;
 }
 
+function resolveSceneCrop(scene, opts) {
+  const crop = SCENE_CROP[scene];
+  if (!crop) {
+    return null;
+  }
+  return crop;
+}
+
 async function captureScene(opts, scene) {
   const previewHtml = path.join(PREVIEW_DIR, "index.html");
   const maxSeconds = resolveMaxSeconds(scene, opts.maxSeconds);
   const outDir = path.join(opts.out, scene);
+  const crop = resolveSceneCrop(scene, opts);
+  const captureWidth = crop?.w ?? opts.width;
+  const captureHeight = crop?.h ?? opts.height;
   await ensureDir(outDir);
 
   const previewUrl =
@@ -189,6 +214,9 @@ async function captureScene(opts, scene) {
   console.log(`Preview: ${previewUrl}`);
   console.log(`Output:  ${outDir}`);
   console.log(`FPS: ${opts.fps}, max ${maxSeconds}s`);
+  if (crop) {
+    console.log(`Crop: ${crop.w}×${crop.h} @ (${crop.x},${crop.y})`);
+  }
 
   const browser = await chromium.launch({ headless: true });
   const context = await browser.newContext({
@@ -229,7 +257,11 @@ async function captureScene(opts, scene) {
   while (index < maxFrames) {
     const frameName = `frame_${String(index + 1).padStart(6, "0")}.png`;
     const framePath = path.join(outDir, frameName);
-    await stage.screenshot({ path: framePath, type: "png" });
+    const shotOpts = { path: framePath, type: "png" };
+    if (crop) {
+      shotOpts.clip = { x: crop.x, y: crop.y, width: crop.w, height: crop.h };
+    }
+    await stage.screenshot(shotOpts);
     frames.push(frameName);
     index += 1;
 
@@ -251,11 +283,22 @@ async function captureScene(opts, scene) {
   await browser.close();
 
   console.log(`Captured ${frames.length} frames → ${outDir}`);
-  return { outDir, frames, previewUrl, scene };
+  return {
+    outDir,
+    frames,
+    previewUrl,
+    scene,
+    captureWidth,
+    captureHeight,
+    crop,
+  };
 }
 
 async function publishWebpAndManifest(opts, capture) {
-  const { outDir, frames, previewUrl, scene } = capture;
+  const { outDir, frames, previewUrl, scene, captureWidth, captureHeight, crop } =
+    capture;
+  const w = captureWidth ?? opts.width;
+  const h = captureHeight ?? opts.height;
   const webpLocal = path.join(outDir, `${scene}.webp`);
   let webpCommitted = null;
   let webpSize = null;
@@ -265,8 +308,8 @@ async function publishWebpAndManifest(opts, capture) {
     sceneName: scene,
     fps: opts.fps,
     quality: opts.webpQuality,
-    width: opts.width,
-    height: opts.height,
+    width: w,
+    height: h,
     outPath: webpLocal,
   });
 
@@ -296,12 +339,13 @@ async function publishWebpAndManifest(opts, capture) {
 
   const manifest = buildManifest({
     scene,
-    width: opts.width,
-    height: opts.height,
+    width: w,
+    height: h,
     fps: opts.fps,
     frameCount: frames.length,
     webpPath,
     previewUrl,
+    crop: crop ?? null,
   });
 
   await fs.writeFile(
@@ -379,12 +423,13 @@ async function exportOneScene(opts, scene) {
   } else {
     const manifest = buildManifest({
       scene,
-      width: opts.width,
-      height: opts.height,
+      width: capture.captureWidth ?? opts.width,
+      height: capture.captureHeight ?? opts.height,
       fps: opts.fps,
       frameCount: capture.frames.length,
       webpPath: null,
       previewUrl: capture.previewUrl,
+      crop: capture.crop ?? null,
     });
     await fs.writeFile(
       path.join(capture.outDir, "manifest.json"),

@@ -118,6 +118,21 @@ const MOTHER_SEQUENCES = {
    * Alien (1979) computer-text decode — glyph scramble → settle + cursor.
    * Reference: https://www.youtube.com/watch?v=Mn7A1vfs8m0
    */
+  /** Active time decode (Option C) — export at y≈296 for time_decode.webp */
+  "time-decode": [
+    { type: "delay", t: 0.15 },
+    {
+      type: "computer-text",
+      copy: "10:08",
+      container: "time",
+      show_cursor: false,
+      has_underline: false,
+      scramble_cycles: 10,
+      char_stagger: 0.07,
+    },
+    { type: "delay", t: 0.6 },
+  ],
+
   "computer-text": [
     { type: "delay", t: 0.4 },
     {

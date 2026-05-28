@@ -1,12 +1,14 @@
 # Committed WebP assets (WFF source)
 
-Animated **456×456** WebPs produced by [`tools/export/`](../../tools/export/). Bulk PNG frames stay in `tools/export/output/` (gitignored).
+Animated WebPs produced by [`tools/export/`](../../tools/export/). Boot / computer-text / boot-ambient export as **274×220** terminal crops; time-decode as **456×72** strip (see `SCENE_CROP` in `export.js`). Bulk PNG frames stay in `tools/export/output/` (gitignored).
 
 ## Layout
 
 ```text
 assets-src/webp/
-  boot.webp
+  boot.webp              # 274×220 terminal crop
+  computer-text.webp     # terminal decode lines
+  time-decode.webp       # active hh:mm scramble strip
   line.webp
   clear.webp
   boot-ambient.webp

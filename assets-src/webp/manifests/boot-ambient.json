@@ -1,11 +1,17 @@
 {
   "scene": "boot-ambient",
-  "width": 456,
-  "height": 456,
+  "width": 274,
+  "height": 220,
   "fps": 15,
-  "frameCount": 40,
-  "durationMs": 2667,
-  "createdAt": "2026-05-28T01:27:02.193Z",
+  "frameCount": 41,
+  "durationMs": 2733,
+  "createdAt": "2026-05-28T02:17:57.092Z",
   "previewUrl": "file:///C:/Dev/watchface 0/tools/preview-web/index.html?export=1&scene=boot-ambient",
+  "crop": {
+    "x": 91,
+    "y": 72,
+    "w": 274,
+    "h": 220
+  },
   "webpPath": "assets-src/webp/boot-ambient.webp"
 }

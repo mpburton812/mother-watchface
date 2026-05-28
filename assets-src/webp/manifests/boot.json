@@ -1,11 +1,17 @@
 {
   "scene": "boot",
-  "width": 456,
-  "height": 456,
+  "width": 274,
+  "height": 220,
   "fps": 15,
-  "frameCount": 93,
-  "durationMs": 6200,
-  "createdAt": "2026-05-28T01:27:01.486Z",
+  "frameCount": 92,
+  "durationMs": 6133,
+  "createdAt": "2026-05-28T02:17:50.223Z",
   "previewUrl": "file:///C:/Dev/watchface 0/tools/preview-web/index.html?export=1&scene=boot",
+  "crop": {
+    "x": 91,
+    "y": 72,
+    "w": 274,
+    "h": 220
+  },
   "webpPath": "assets-src/webp/boot.webp"
 }

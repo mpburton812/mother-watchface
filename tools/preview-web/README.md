@@ -45,6 +45,11 @@ Then open http://localhost:5173
 - URL: `?safezone=1` (on), `?safezone=0` (off)
 - UI: **Safe zone (90%)** checkbox in controls (hidden in export mode)
 
+## WFF layout overlay
+
+- URL: `?layout=hud` — dashed rects for terminal, DATE/BAT footer, active time strip, ambient time (matches `layout.js` / `watchface.xml`)
+- Mock footer labels shown when `layout=hud` (not exported)
+
 The ring is visual only and is not captured when `export=1`.
 
 ## Export mode

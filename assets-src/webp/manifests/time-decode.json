@@ -1,0 +1,17 @@
+{
+  "scene": "time-decode",
+  "width": 456,
+  "height": 72,
+  "fps": 15,
+  "frameCount": 10,
+  "durationMs": 667,
+  "createdAt": "2026-05-28T02:18:17.849Z",
+  "previewUrl": "file:///C:/Dev/watchface 0/tools/preview-web/index.html?export=1&scene=time-decode",
+  "crop": {
+    "x": 0,
+    "y": 296,
+    "w": 456,
+    "h": 72
+  },
+  "webpPath": "assets-src/webp/time-decode.webp"
+}

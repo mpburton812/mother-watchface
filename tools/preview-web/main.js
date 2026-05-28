@@ -13,6 +13,7 @@
   const statusEl = document.getElementById("status");
   const stageEl = document.getElementById("stage");
   const safezoneToggle = document.getElementById("safezone-toggle");
+  const layoutOverlay = document.getElementById("layout-overlay");
 
   function isSafeZoneEnabled() {
     const q = params.get("safezone");
@@ -23,6 +24,46 @@
       return false;
     }
     return safezoneToggle?.checked === true;
+  }
+
+  function isLayoutHudEnabled() {
+    const q = params.get("layout");
+    return q === "hud" || q === "HUD";
+  }
+
+  function applyLayoutHud() {
+    if (!stageEl) {
+      return;
+    }
+    const on = isLayoutHudEnabled();
+    stageEl.classList.toggle("show-layout-hud", on);
+    stageEl.classList.toggle("show-hud-footer", on);
+    if (!layoutOverlay || !on) {
+      return;
+    }
+    const L = window.WFF_LAYOUT;
+    if (!L) {
+      return;
+    }
+    const footers = window.WFF_FOOTER_RECTS?.() || {};
+    layoutOverlay.innerHTML = "";
+    const rects = [
+      { ...L.terminal, label: "terminal 274×220" },
+      { ...footers.date, label: "DATE" },
+      { ...footers.bat, label: "BAT" },
+      { ...L.activeTime, label: "active time" },
+      { ...L.ambientTime, label: "ambient time" },
+    ];
+    rects.forEach((r) => {
+      const div = document.createElement("div");
+      div.className = "layout-rect";
+      div.dataset.label = r.label;
+      div.style.left = `${r.x}px`;
+      div.style.top = `${r.y}px`;
+      div.style.width = `${r.w}px`;
+      div.style.height = `${r.h}px`;
+      layoutOverlay.appendChild(div);
+    });
   }
 
   function applySafeZone() {
@@ -42,6 +83,7 @@
     safezoneToggle.addEventListener("change", applySafeZone);
   }
   applySafeZone();
+  applyLayoutHud();
 
   let mother = null;
   let playPromiseResolve = null;
@@ -80,6 +122,10 @@
     const lines = document.getElementById("lines_container");
     if (lines) {
       lines.innerHTML = "";
+    }
+    const timeStrip = document.getElementById("time_strip");
+    if (timeStrip) {
+      timeStrip.innerHTML = "";
     }
     frameIndex = 0;
     playing = false;

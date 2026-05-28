@@ -1,16 +1,22 @@
 <?xml version="1.0"?>
 <!--
   MU-TH-UR terminal watch face — WFF v4, 456×456 round (Pixel Watch 4 / Wear OS 6).
-  Assets: boot.webp (interactive), boot_ambient.webp (ambient), from assets-src/webp/.
-  Typography: Share Tech Mono (res/font/share_tech_mono.ttf, family share_tech_mono).
+  Layout: terminal box 274×220 @ (91,72); HUD footer DATE/BAT inside box;
+  active time decode WebP @ y=296 then DigitalClock; ambient large centered time.
+  Assets: assets-src/webp/ → drawable-nodpi/
 -->
 <WatchFace width="456" height="456" clipShape="CIRCLE">
     <Metadata key="CLOCK_TYPE" value="DIGITAL" />
     <Metadata key="PREVIEW_TIME" value="10:08:00" />
 
     <Scene backgroundColor="#ff000000">
-        <!-- Interactive boot (WebP): plays when face becomes visible, then holds first frame (no per-minute replay) -->
-        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive">
+        <!-- Boot: cropped to terminal rect (not full-bleed) -->
+        <PartAnimatedImage
+            x="91"
+            y="72"
+            width="274"
+            height="220"
+            name="boot_interactive">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <AnimationController
                 play="ON_VISIBLE"
@@ -20,18 +26,40 @@
             <AnimatedImage resource="boot" format="WEBP" />
         </PartAnimatedImage>
 
-        <!-- Ambient: shorter dim boot loop -->
-        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient" alpha="0">
-            <Variant mode="AMBIENT" target="alpha" value="255" />
+        <!-- Ambient: dim terminal boot loop -->
+        <PartAnimatedImage
+            x="91"
+            y="72"
+            width="274"
+            height="220"
+            name="boot_ambient"
+            alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="140" />
             <AnimationController play="ON_VISIBLE" repeat="TRUE" />
             <AnimatedImage resource="boot_ambient" format="WEBP" />
         </PartAnimatedImage>
 
-        <!-- Digital time (green terminal); thinner in ambient -->
-        <DigitalClock x="0" y="0" width="456" height="456">
+        <!-- Computer-text decode inside terminal (after boot / on wake) -->
+        <PartAnimatedImage
+            x="91"
+            y="72"
+            width="274"
+            height="220"
+            name="computer_text">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController
+                play="ON_VISIBLE"
+                repeat="FALSE"
+                loopCount="1"
+                afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="computer_text" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Active time: live clock (under decode WebP; revealed when decode layer ends) -->
+        <DigitalClock x="0" y="296" width="456" height="72">
             <TimeText
                 x="0"
-                y="318"
+                y="0"
                 width="456"
                 height="72"
                 format="hh:mm"
@@ -41,74 +69,94 @@
                 <Variant mode="AMBIENT" target="alpha" value="0" />
                 <Font
                     family="share_tech_mono"
-                    size="64"
+                    size="56"
                     weight="NORMAL"
                     slant="NORMAL"
                     color="#ff7af042" />
             </TimeText>
+        </DigitalClock>
+
+        <!-- Active time decode once per wake (Option C — baked WebP; WFF has no scramble logic) -->
+        <PartAnimatedImage
+            x="0"
+            y="296"
+            width="456"
+            height="72"
+            name="time_decode">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController
+                play="ON_VISIBLE"
+                repeat="FALSE"
+                loopCount="1"
+                afterPlaying="REMOVE" />
+            <AnimatedImage resource="time_decode" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Ambient Option D: large centered time; terminal motion hidden/dimmed above -->
+        <DigitalClock x="0" y="168" width="456" height="120">
             <TimeText
                 x="0"
-                y="318"
+                y="0"
                 width="456"
-                height="72"
+                height="120"
                 format="hh:mm"
                 hourFormat="SYNC_TO_DEVICE"
                 align="CENTER"
                 alpha="0">
-                <Variant mode="AMBIENT" target="alpha" value="255" />
+                <Variant mode="AMBIENT" target="alpha" value="220" />
                 <Font
                     family="share_tech_mono"
-                    size="56"
+                    size="72"
                     weight="THIN"
                     slant="NORMAL"
                     color="#ff7af042" />
             </TimeText>
         </DigitalClock>
 
-        <!-- Date complication (default system DATE provider) -->
+        <!-- HUD footer inside terminal: DATE (left) -->
         <ComplicationSlot
-            x="56"
-            y="400"
-            width="160"
-            height="40"
+            x="101"
+            y="264"
+            width="130"
+            height="28"
             slotId="0"
-            name="date_slot"
+            name="date_footer"
             displayName="complication_date"
             supportedTypes="SHORT_TEXT">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
             <DefaultProviderPolicy
                 defaultSystemProvider="DATE"
                 defaultSystemProviderType="SHORT_TEXT" />
             <Complication type="SHORT_TEXT">
-                <PartText x="0" y="0" width="160" height="40">
-                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                <PartText x="0" y="0" width="130" height="28">
                     <Text align="START" ellipsis="TRUE">
-                        <Font family="share_tech_mono" size="18" color="#ff7af042">
-                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        <Font family="share_tech_mono" size="16" color="#ff7af042">
+                            <Template><![CDATA[DATE %s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
                 </PartText>
             </Complication>
         </ComplicationSlot>
 
-        <!-- Battery complication (default WATCH_BATTERY provider) -->
+        <!-- HUD footer inside terminal: BAT (right) -->
         <ComplicationSlot
-            x="240"
-            y="400"
-            width="160"
-            height="40"
+            x="225"
+            y="264"
+            width="130"
+            height="28"
             slotId="1"
-            name="battery_slot"
+            name="battery_footer"
             displayName="complication_battery"
             supportedTypes="SHORT_TEXT RANGED_VALUE">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
             <DefaultProviderPolicy
                 defaultSystemProvider="WATCH_BATTERY"
                 defaultSystemProviderType="SHORT_TEXT" />
             <Complication type="SHORT_TEXT">
-                <PartText x="0" y="0" width="160" height="40">
-                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                <PartText x="0" y="0" width="130" height="28">
                     <Text align="END" ellipsis="TRUE">
-                        <Font family="share_tech_mono" size="18" color="#ff7af042">
-                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        <Font family="share_tech_mono" size="16" color="#ff7af042">
+                            <Template><![CDATA[BAT %s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
                 </PartText>

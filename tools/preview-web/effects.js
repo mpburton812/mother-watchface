@@ -601,9 +601,14 @@ class Mother {
         case "line":
           c = new Line({ ...lineOpts, ...cmd });
           break;
-        case "computer-text":
-          c = new ComputerTextLine({ ...lineOpts, ...cmd });
+        case "computer-text": {
+          const container =
+            cmd.container === "time"
+              ? document.querySelector("#time_strip")
+              : this.lines_container;
+          c = new ComputerTextLine({ ...lineOpts, ...cmd, line_container: container });
           break;
+        }
         case "clear":
           c = new ClearScreen({ ...clearOpts, ...cmd });
           break;
