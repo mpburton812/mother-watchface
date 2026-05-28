@@ -147,25 +147,32 @@ public class MainActivity extends AppCompatActivity {
 
     private void launchSmartwatchManager() {
         try {
+            // First try launching the Pixel Watch Companion app
             Intent intent = getPackageManager().getLaunchIntentForPackage("com.google.android.apps.wear.companion");
             if (intent == null) {
+                // Try legacy Wear OS app package
                 intent = getPackageManager().getLaunchIntentForPackage("com.google.android.wearable.app");
             }
             if (intent == null) {
+                // If not pre-installed/running, try launching explicitly
                 intent = new Intent(Intent.ACTION_MAIN);
                 intent.addCategory(Intent.CATEGORY_LAUNCHER);
                 intent.setComponent(new ComponentName("com.google.android.apps.wear.companion", "com.google.android.apps.wear.companion.main.MainActivity"));
             }
             startActivity(intent);
         } catch (Exception e) {
-            Toast.makeText(this, "Opening Watch Settings... Select MU-TH-UR in your watch face library.", Toast.LENGTH_LONG).show();
+            // Fallback: Try launching the Google Play Store details page for the companion app
             try {
-                startActivity(new Intent("android.intent.action.SET_WALLPAPER"));
+                Intent playStoreIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.wear.companion"));
+                playStoreIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(playStoreIntent);
+                Toast.makeText(this, "Pixel Watch app not found. Opening Play Store...", Toast.LENGTH_LONG).show();
             } catch (Exception ex) {
                 try {
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.wear.companion")));
+                    Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.wear.companion"));
+                    startActivity(webIntent);
                 } catch (Exception e3) {
-                    Toast.makeText(this, "Could not open smartwatch manager. Long-press your watch face to customize.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, "Wear companion app not installed. Please configure MU-TH-UR directly on your watch.", Toast.LENGTH_LONG).show();
                 }
             }
         }
