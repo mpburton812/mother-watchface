@@ -4,11 +4,13 @@
 #   .\scripts\install-watchface.ps1 -OpenPicker
 #   .\scripts\install-watchface.ps1 -SetActive
 #   .\scripts\install-watchface.ps1 -SkipBuild
+#   .\scripts\install-watchface.ps1 -AdbPath "C:\Users\me\AppData\Local\Android\Sdk\platform-tools\adb.exe"
 
 param(
     [switch]$SkipBuild,
     [switch]$OpenPicker,
-    [switch]$SetActive
+    [switch]$SetActive,
+    [string]$AdbPath
 )
 
 $ErrorActionPreference = "Stop"
@@ -62,12 +64,27 @@ function Resolve-JavaHome {
 }
 
 function Resolve-Adb {
-    param([string]$SdkDir)
+    param(
+        [string]$SdkDir,
+        [string]$AdbPath
+    )
+
+    if ($AdbPath) {
+        $p = $AdbPath.Trim('"')
+        if (Test-Path $p -PathType Container) {
+            $p = Join-Path $p "adb.exe"
+        }
+        if (Test-Path $p -PathType Leaf) {
+            return (Resolve-Path $p).Path
+        }
+        throw "AdbPath provided but not found: $AdbPath"
+    }
+
     $adb = Get-Command adb -ErrorAction SilentlyContinue
     if ($adb) { return $adb.Source }
     $sdkAdb = Join-Path $SdkDir "platform-tools\adb.exe"
     if (Test-Path $sdkAdb) { return $sdkAdb }
-    throw "adb not found. Install Android SDK platform-tools or add adb to PATH."
+    throw "adb not found. Install Android SDK platform-tools, add adb to PATH, or pass -AdbPath."
 }
 
 function Get-AdbDevices {
@@ -90,7 +107,7 @@ $env:ANDROID_SDK_ROOT = $sdkDir
 $env:JAVA_HOME = Resolve-JavaHome
 $env:PATH = "$env:JAVA_HOME\bin;$sdkDir\platform-tools;$env:PATH"
 
-$adb = Resolve-Adb -SdkDir $sdkDir
+$adb = Resolve-Adb -SdkDir $sdkDir -AdbPath $AdbPath
 $devices = Get-AdbDevices -Adb $adb
 if ($devices.Count -eq 0) {
     Write-Error "No adb device in 'device' state. Start a Wear emulator or connect a watch with USB/Wi-Fi debugging."

@@ -54,7 +54,7 @@ Requirements:
 |---------|-----|
 | `java` not recognized | Set `JAVA_HOME` to Android Studio `jbr` (see above) |
 | `SDK location not found` | Export `ANDROID_HOME` even if `local.properties` exists (common when the repo path contains a **space**) |
-| `adb` not found | Add `%ANDROID_HOME%\platform-tools` to PATH |
+| `adb` not found | The install script will try `%ANDROID_HOME%\platform-tools\adb.exe`; otherwise add it to PATH or pass `-AdbPath` |
 
 ## Install on emulator or watch
 
@@ -65,6 +65,7 @@ Requirements:
 .\scripts\install-watchface.ps1 -SetActive          # debug: set as active face
 .\scripts\install-watchface.ps1 -OpenPicker       # try Wear face picker (best-effort)
 .\scripts\install-watchface.ps1 -SkipBuild          # install existing APK only
+.\scripts\install-watchface.ps1 -AdbPath "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe"
 ```
 
 Manual:
