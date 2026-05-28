@@ -8,7 +8,7 @@ Green phosphor terminal aesthetics: boot sequences, typing-line reveals, and cle
 
 ## Status
 
-**Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Phase 2 ships committed WebPs under [`assets-src/webp/`](assets-src/webp/). Full WFF XML packaging is Phase 3.
+**Tier B (chosen path):** tune the CodePen look in a local **456×456** web preview, export PNG frames, and assemble **animated WebP** for WFF assets. Phase 2 ships committed WebPs under [`assets-src/webp/`](assets-src/webp/). Phase 3 adds the **WFF v4** Android module under [`watchface/`](watchface/) — see [watchface/README.md](watchface/README.md) to build and sideload.
 
 | Tool | Purpose |
 |------|---------|
@@ -32,7 +32,7 @@ The CodePen remains the visual reference; on-watch delivery uses WFF (declarativ
 ├── tools/
 │   ├── preview-web/     # 456×456 GSAP preview + export hooks
 │   └── export/          # Playwright → PNG → ffmpeg WebP
-├── watchface/           # WFF XML, fonts, assets, Android package (future)
+├── watchface/           # WFF v4 APK module (build: watchface/README.md)
 └── assets-src/          # Source art (optional)
 ```
 
@@ -55,11 +55,11 @@ node export.js --all
 
 Committed WebPs: `assets-src/webp/*.webp` (see [assets-src/webp/README.md](assets-src/webp/README.md)).
 
-## Development (on-device, later)
+## Development (on-device)
 
-1. Install [Android Studio](https://developer.android.com/studio) with Wear OS / WFF support, or [Samsung Watch Face Studio](https://developer.samsung.com/watch-face-studio/overview.html).
-2. Sideload the built APK to a Pixel Watch 4 (USB debugging or Wi‑Fi ADB).
-3. Validate WFF XML and on-pixel ratio (OPR) for ambient mode before publishing.
+1. Install [Android Studio](https://developer.android.com/studio) (Wear OS / API 36 SDK).
+2. From repo root: `.\gradlew.bat :watchface:assembleDebug` — details in [watchface/README.md](watchface/README.md).
+3. Sideload to Pixel Watch 4 or a Wear OS Large Round emulator; validate ambient OPR before publishing.
 
 ## Inspiration & credits
 

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="watch_face_name">MU-TH-UR</string>
+    <string name="complication_date">Date</string>
+    <string name="complication_battery">Battery</string>
+</resources>

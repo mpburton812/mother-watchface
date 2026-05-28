@@ -114,16 +114,34 @@ Creates **`mother-watchface`** on GitHub (if missing) and sets `origin`. **Fix i
 | Committed WebPs + manifests | `assets-src/webp/` |
 | Ambient clip | `boot-ambient.webp` (+ README dim/ffmpeg notes) |
 
-## Not done yet (Phase 3+)
+## Phase 3 done (WFF watch face)
+
+| Item | Status |
+|------|--------|
+| Gradle module `:watchface` | Root `settings.gradle.kts`, `minSdk`/`compileSdk` **36**, WFF **v4** manifest property |
+| `watchface.xml` | 456×456 round; boot WebP (`PartAnimatedImage`), ambient `boot_ambient`, digital `hh:mm`, DATE + WATCH_BATTERY slots |
+| Drawable deploy copies | `watchface/src/main/res/drawable-nodpi/*.webp` from `assets-src/webp/` |
+| Build / install docs | [watchface/README.md](../watchface/README.md) |
+
+**Build (repo root, Windows):**
+
+```powershell
+cd "c:\Dev\watchface 0"
+.\gradlew.bat :watchface:assembleDebug
+adb install -r watchface\build\outputs\apk\debug\watchface-debug.apk
+```
+
+Package id: `com.mpburton812.motherwatchface`. APK outputs are gitignored.
+
+## Not done yet (Phase 4+)
 
 | Area | Status |
 |------|--------|
-| **WFF XML** | `watchface/` is placeholder (`.gitkeep` only) |
-| **Watch APK / Android package** | Not started |
-| **WebP → WFF wiring** | No WFF `<Bitmap>` / slot definitions |
+| **Share Tech Mono font** | WFF uses `SYNC_TO_DEVICE`; bundle `res/font` for pen parity |
+| **`line` / `clear` WebP in WFF** | Assets copied; not wired in XML (tap / periodic triggers) |
 | **`full` scene in repo** | Optional; export with `--scene full` or `--all --include-full` (long) |
 | **Scanlines / cursor / audio** | Not in preview (intentionally dropped for WFF path) |
-| **On-device test** | No Android Studio project / sideload |
+| **On-device polish** | OPR, ambient burn-in, validator / memory footprint, preview screenshot |
 | **Play Store / signing** | Not started |
 | **License** | TBD in README |
 
@@ -200,9 +218,17 @@ Same commands with forward slashes; install Node, ffmpeg, and Playwright deps pe
    node export.js --scene full
    ```
 
-7. **Suggested next milestone (Phase 3)**
-   - Add minimal **WFF v4** XML under `watchface/` referencing `assets-src/webp/*.webp` + static time complication.
-   - Build/sign APK and sideload to Pixel Watch 4; validate **ambient OPR** and asset size limits.
+7. **WFF package (Phase 3)**
+   ```powershell
+   cd "c:\Dev\watchface 0"
+   .\gradlew.bat :watchface:assembleDebug
+   adb install -r watchface\build\outputs\apk\debug\watchface-debug.apk
+   ```
+   See [watchface/README.md](../watchface/README.md).
+
+8. **Suggested next milestone (Phase 4)**
+   - Sideload to Pixel Watch 4 / Wear emulator; tune ambient OPR and boot replay policy.
+   - Bundle Share Tech Mono; wire `line` / `clear` animations; run WFF validator before publish.
 
 ---
 
@@ -216,7 +242,7 @@ mother-watchface/
 ├── tools/
 │   ├── preview-web/        # 456×456 GSAP preview
 │   └── export/             # Playwright → PNG
-├── watchface/              # WFF + APK (future)
+├── watchface/              # WFF v4 Gradle module + APK (Phase 3)
 ├── assets-src/
 │   └── webp/               # committed WebP + manifests (Phase 2)
 ├── scripts/
