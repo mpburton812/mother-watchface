@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "mother-watchface"
 include(":watchface")
+include(":mobile")

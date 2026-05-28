@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.MotherCompanion" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@color/dark_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="colorPrimary">@color/terminal_green</item>
+        <item name="colorSecondary">@color/terminal_green_glow</item>
+        <item name="android:statusBarColor">@color/black</item>
+    </style>
+</resources>
