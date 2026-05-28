@@ -8,7 +8,7 @@ Browser preview of the [CodePen MU-TH-UR UI](https://codepen.io/tkmoney/pen/qBoV
 |---------|---------|-----|
 | GSAP | **3.12.5** | `https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js` |
 
-Font: [Share Tech Mono](https://fonts.google.com/specimen/Share+Tech+Mono) (Google Fonts).
+**Font:** Share Tech Mono (local). Bundled copy: `fonts/ShareTechMono-Regular.ttf` (from `assets/Share_Tech_Mono/ShareTechMono-Regular.ttf`, OFL — see `assets/Share_Tech_Mono/OFL.txt`). Loaded via `@font-face` in `styles.css`; no Google Fonts CDN.
 
 ## Palette (locked)
 

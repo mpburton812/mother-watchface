@@ -93,7 +93,7 @@ If burn-in risk appears: shorten/dim `boot-ambient` export (see [assets-src/webp
 | 0 | `DATE` / SHORT_TEXT | Wired in `watchface.xml` — verify on device |
 | 1 | `WATCH_BATTERY` / SHORT_TEXT | Wired — verify on device |
 | `line.webp` / `clear.webp` | — | **TODO** — assets present, not triggered in XML |
-| Share Tech Mono font | — | **TODO** — `SYNC_TO_DEVICE` only |
+| Share Tech Mono font | `res/font/share_tech_mono.ttf` | Bundled; `family="share_tech_mono"` on time + complications |
 
 ---
 

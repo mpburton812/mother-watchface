@@ -86,7 +86,7 @@ adb shell am broadcast -a com.google.android.wearable.app.DEBUG_SURFACE --es ope
 
 ## TODOs (post–Phase 4)
 
-- Bundle **Share Tech Mono** (`res/font`) for CodePen-accurate glyphs
+- **Share Tech Mono** bundled at `src/main/res/font/share_tech_mono.ttf` (`family="share_tech_mono"` in `watchface.xml`); source: `assets/Share_Tech_Mono/ShareTechMono-Regular.ttf`
 - Wire `line.webp` / `clear.webp` (tap or periodic triggers)
 - Replace `preview.webp` with a captured on-device screenshot
 - Run [WFF validator](https://github.com/google/watchface) and memory footprint tool before Play upload

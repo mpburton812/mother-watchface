@@ -2,6 +2,8 @@
 
 Headless capture of [preview-web](../preview-web/) at **456×456**, optional **ffmpeg → WebP**, and copy into [`assets-src/webp/`](../../assets-src/webp/).
 
+Typography matches preview: Share Tech Mono loads from `preview-web/fonts/ShareTechMono-Regular.ttf` via local `@font-face` (no network fonts). Playwright waits on `document.fonts.ready` before capture.
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org/) 18+

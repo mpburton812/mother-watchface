@@ -48,7 +48,7 @@ Browser **456×456** preview of the CodePen-style UI (**GSAP 3.12.5** pinned on 
 
 - **Scenes:** `boot`, `demo`, `full` (CodePen `cmd_seq`), `line` — see `sequences.js`
 - **Parity:** gradient sweep, char stagger glow, boot random chars + bars + details, clear flash (no audio)
-- **Palette:** `#000`, `#7af042` / `#7df14a` / `#80ff10`, Share Tech Mono — CSS variables in `styles.css`
+- **Palette:** `#000`, `#7af042` / `#7df14a` / `#80ff10`, Share Tech Mono — local `@font-face` in `styles.css` (`fonts/ShareTechMono-Regular.ttf`; canonical `assets/Share_Tech_Mono/`)
 - **Round mask:** 456×456 `.round-mask`; optional **safe-zone ring** (90% diameter) via `?safezone=1` or UI checkbox
 - **Run:** open `index.html`, or `npx --yes serve -p 5173` → http://localhost:5173
 - **Export hooks:** `?export=1&scene=boot&autoplay=1`; API `window.__MOTHER_EXPORT__`
@@ -149,7 +149,7 @@ Package id: `com.mpburton812.motherwatchface`. APK outputs are gitignored.
 
 | Area | Status |
 |------|--------|
-| **Share Tech Mono font** | WFF uses `SYNC_TO_DEVICE`; bundle `res/font` for pen parity |
+| ~~**Share Tech Mono font**~~ | Done — preview `@font-face`, WFF `res/font/share_tech_mono.ttf`, export uses same preview |
 | **`line` / `clear` WebP in WFF** | Assets copied; not wired in XML (tap / periodic triggers) |
 | **`full` scene in repo** | Optional; export with `--scene full` or `--all --include-full` (long) |
 | **Scanlines / cursor / audio** | Not in preview (intentionally dropped for WFF path) |
@@ -239,7 +239,7 @@ Same commands with forward slashes; install Node, ffmpeg, and Playwright deps pe
 
 8. **Suggested next milestone (Phase 5)**
    - Complete hardware sign-off in [PHASE4-TEST.md](PHASE4-TEST.md).
-   - Bundle Share Tech Mono; wire `line` / `clear` animations; run WFF validator before publish.
+   - Wire `line` / `clear` animations; run WFF validator before publish.
 
 ---
 

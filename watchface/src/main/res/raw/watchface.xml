@@ -2,7 +2,7 @@
 <!--
   MU-TH-UR terminal watch face — WFF v4, 456×456 round (Pixel Watch 4 / Wear OS 6).
   Assets: boot.webp (interactive), boot_ambient.webp (ambient), from assets-src/webp/.
-  TODO: bundle Share Tech Mono in res/font for exact CodePen typography.
+  Typography: Share Tech Mono (res/font/share_tech_mono.ttf, family share_tech_mono).
 -->
 <WatchFace width="456" height="456" clipShape="CIRCLE">
     <Metadata key="CLOCK_TYPE" value="DIGITAL" />
@@ -40,7 +40,7 @@
                 alpha="255">
                 <Variant mode="AMBIENT" target="alpha" value="0" />
                 <Font
-                    family="SYNC_TO_DEVICE"
+                    family="share_tech_mono"
                     size="64"
                     weight="NORMAL"
                     slant="NORMAL"
@@ -57,7 +57,7 @@
                 alpha="0">
                 <Variant mode="AMBIENT" target="alpha" value="255" />
                 <Font
-                    family="SYNC_TO_DEVICE"
+                    family="share_tech_mono"
                     size="56"
                     weight="THIN"
                     slant="NORMAL"
@@ -82,7 +82,7 @@
                 <PartText x="0" y="0" width="160" height="40">
                     <Variant mode="AMBIENT" target="alpha" value="180" />
                     <Text align="START" ellipsis="TRUE">
-                        <Font family="SYNC_TO_DEVICE" size="18" color="#ff7af042">
+                        <Font family="share_tech_mono" size="18" color="#ff7af042">
                             <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
@@ -107,7 +107,7 @@
                 <PartText x="0" y="0" width="160" height="40">
                     <Variant mode="AMBIENT" target="alpha" value="180" />
                     <Text align="END" ellipsis="TRUE">
-                        <Font family="SYNC_TO_DEVICE" size="18" color="#ff7af042">
+                        <Font family="share_tech_mono" size="18" color="#ff7af042">
                             <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
