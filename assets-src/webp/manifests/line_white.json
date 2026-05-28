@@ -1,0 +1,11 @@
+{
+  "scene": "line_white",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 24,
+  "durationMs": 1600,
+  "createdAt": "2026-05-28T18:21:12.089Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=line&color=white",
+  "webpPath": "assets-src/webp/line_white.webp"
+}

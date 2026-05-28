@@ -3,9 +3,9 @@
   "width": 456,
   "height": 456,
   "fps": 15,
-  "frameCount": 26,
-  "durationMs": 1733,
-  "createdAt": "2026-05-28T01:27:01.719Z",
-  "previewUrl": "file:///C:/Dev/watchface 0/tools/preview-web/index.html?export=1&scene=line",
+  "frameCount": 22,
+  "durationMs": 1467,
+  "createdAt": "2026-05-28T18:13:28.819Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=line",
   "webpPath": "assets-src/webp/line.webp"
 }

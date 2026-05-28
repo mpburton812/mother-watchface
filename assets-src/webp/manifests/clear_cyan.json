@@ -1,0 +1,11 @@
+{
+  "scene": "clear_cyan",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 7,
+  "durationMs": 467,
+  "createdAt": "2026-05-28T18:19:05.799Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=clear&color=cyan",
+  "webpPath": "assets-src/webp/clear_cyan.webp"
+}

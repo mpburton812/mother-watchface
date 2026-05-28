@@ -1,0 +1,11 @@
+{
+  "scene": "boot_amber",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 81,
+  "durationMs": 5400,
+  "createdAt": "2026-05-28T18:18:16.185Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=boot&color=amber",
+  "webpPath": "assets-src/webp/boot_amber.webp"
+}

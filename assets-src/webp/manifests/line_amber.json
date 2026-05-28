@@ -1,0 +1,11 @@
+{
+  "scene": "line_amber",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 21,
+  "durationMs": 1400,
+  "createdAt": "2026-05-28T18:18:20.854Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=line&color=amber",
+  "webpPath": "assets-src/webp/line_amber.webp"
+}

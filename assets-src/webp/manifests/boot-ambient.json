@@ -3,9 +3,9 @@
   "width": 456,
   "height": 456,
   "fps": 15,
-  "frameCount": 40,
-  "durationMs": 2667,
-  "createdAt": "2026-05-28T01:27:02.193Z",
-  "previewUrl": "file:///C:/Dev/watchface 0/tools/preview-web/index.html?export=1&scene=boot-ambient",
+  "frameCount": 33,
+  "durationMs": 2200,
+  "createdAt": "2026-05-28T18:13:37.617Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=boot-ambient",
   "webpPath": "assets-src/webp/boot-ambient.webp"
 }

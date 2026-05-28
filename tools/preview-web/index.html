@@ -12,6 +12,14 @@
         <div id="mother_container">
           <div id="lines_container"></div>
         </div>
+        <!-- Mock watch face overlay (digital clock & complications) -->
+        <div id="mock-watchface-overlay" class="mock-overlay">
+          <div class="mock-clock">10:08</div>
+          <div class="mock-complication comp-0">MAY 28</div>
+          <div class="mock-complication comp-1">81%</div>
+          <div class="mock-complication comp-2">9432</div>
+          <div class="mock-complication comp-3">72</div>
+        </div>
       </div>
 
       <div id="controls" aria-hidden="true" data-export-hide>
@@ -27,8 +35,25 @@
           </select>
         </label>
         <label>
+          Color
+          <select id="color-select">
+            <option value="green">green</option>
+            <option value="amber">amber</option>
+            <option value="cyan">cyan</option>
+            <option value="white">white</option>
+          </select>
+        </label>
+        <label>
+          <input type="checkbox" id="crt-toggle" checked />
+          CRT Screen
+        </label>
+        <label>
           <input type="checkbox" id="safezone-toggle" />
           Safe zone (90%)
+        </label>
+        <label>
+          <input type="checkbox" id="mock-overlay-toggle" checked />
+          Mock overlay
         </label>
         <button type="button" id="play-btn">Play sequence</button>
         <span id="status" role="status"></span>

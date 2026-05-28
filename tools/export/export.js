@@ -65,6 +65,7 @@ function parseArgs(argv) {
     copyAssets: true,
     assetsDir: ASSETS_WEBP_DIR,
     webpQuality: DEFAULT_QUALITY,
+    color: "green",
     help: false,
   };
 
@@ -72,6 +73,8 @@ function parseArgs(argv) {
     const arg = argv[i];
     if (arg === "--scene" && argv[i + 1]) {
       opts.scene = argv[++i];
+    } else if (arg === "--color" && argv[i + 1]) {
+      opts.color = argv[++i];
     } else if (arg === "--fps" && argv[i + 1]) {
       opts.fps = Number(argv[++i]);
     } else if (arg === "--max-seconds" && argv[i + 1]) {
@@ -115,6 +118,7 @@ MU-TH-UR frame export
 
 Options:
   --scene <name>       boot | line | clear | boot-ambient | demo | full
+  --color <theme>      green | amber | cyan | white (default: green)
   --all                export ${DEFAULT_BATCH_SCENES.join(", ")} (not full)
   --include-full       with --all, also export full (long)
   --fps <n>            capture rate (default: ${DEFAULT_FPS})
@@ -175,13 +179,15 @@ function buildManifest({
 async function captureScene(opts, scene) {
   const previewHtml = path.join(PREVIEW_DIR, "index.html");
   const maxSeconds = resolveMaxSeconds(scene, opts.maxSeconds);
-  const outDir = path.join(opts.out, scene);
+  const color = opts.color || "green";
+  const colorSuffix = color !== "green" ? `_${color}` : "";
+  const outDir = path.join(opts.out, `${scene}${colorSuffix}`);
   await ensureDir(outDir);
 
   const previewUrl =
     "file:///" +
     previewHtml.replace(/\\/g, "/") +
-    `?export=1&scene=${encodeURIComponent(scene)}`;
+    `?export=1&scene=${encodeURIComponent(scene)}&color=${encodeURIComponent(color)}`;
 
   console.log(`\n── Scene: ${scene} ──`);
   console.log(`Preview: ${previewUrl}`);
@@ -254,13 +260,16 @@ async function captureScene(opts, scene) {
 
 async function publishWebpAndManifest(opts, capture) {
   const { outDir, frames, previewUrl, scene } = capture;
-  const webpLocal = path.join(outDir, `${scene}.webp`);
+  const color = opts.color || "green";
+  const colorSuffix = color !== "green" ? `_${color}` : "";
+  const webpName = `${scene}${colorSuffix}`.replace(/-/g, "_");
+  const webpLocal = path.join(outDir, `${webpName}.webp`);
   let webpCommitted = null;
   let webpSize = null;
 
   await assembleWebp({
     sceneDir: outDir,
-    sceneName: scene,
+    sceneName: webpName,
     fps: opts.fps,
     quality: opts.webpQuality,
     width: opts.width,
@@ -274,14 +283,14 @@ async function publishWebpAndManifest(opts, capture) {
 
   if (webpSize > 5 * 1024 * 1024) {
     console.warn(
-      `WARNING: ${scene}.webp is over 5 MB — consider fewer frames, lower quality, or shorter scene.`
+      `WARNING: ${webpName}.webp is over 5 MB — consider fewer frames, lower quality, or shorter scene.`
     );
   }
 
   if (opts.copyAssets) {
     await ensureDir(opts.assetsDir);
     await ensureDir(ASSETS_MANIFEST_DIR);
-    const destWebp = path.join(opts.assetsDir, `${scene}.webp`);
+    const destWebp = path.join(opts.assetsDir, `${webpName}.webp`);
     await fs.copyFile(webpLocal, destWebp);
     webpCommitted = path
       .relative(REPO_ROOT, destWebp)
@@ -293,7 +302,7 @@ async function publishWebpAndManifest(opts, capture) {
     webpCommitted ?? path.relative(REPO_ROOT, webpLocal).replace(/\\/g, "/");
 
   const manifest = buildManifest({
-    scene,
+    scene: webpName,
     width: opts.width,
     height: opts.height,
     fps: opts.fps,
@@ -308,7 +317,7 @@ async function publishWebpAndManifest(opts, capture) {
   );
 
   if (opts.copyAssets) {
-    const manifestDest = path.join(ASSETS_MANIFEST_DIR, `${scene}.json`);
+    const manifestDest = path.join(ASSETS_MANIFEST_DIR, `${webpName}.json`);
     await fs.writeFile(manifestDest, JSON.stringify(manifest, null, 2));
   }
 
@@ -326,17 +335,15 @@ function formatBytes(n) {
 }
 
 async function exportOneScene(opts, scene) {
-  if (!KNOWN_SCENES.includes(scene)) {
-    throw new Error(
-      `Unknown scene "${scene}". Known: ${KNOWN_SCENES.join(", ")}`
-    );
-  }
+  const color = opts.color || "green";
+  const colorSuffix = color !== "green" ? `_${color}` : "";
+  const webpName = `${scene}${colorSuffix}`.replace(/-/g, "_");
 
   if (opts.webpOnly) {
     if (!opts.webp) {
       throw new Error("--webp-only requires ffmpeg (omit --no-webp)");
     }
-    const outDir = path.join(opts.out, scene);
+    const outDir = path.join(opts.out, webpName);
     let frameCount = 0;
     try {
       const manifest = JSON.parse(
@@ -354,7 +361,7 @@ async function exportOneScene(opts, scene) {
     const previewUrl =
       "file:///" +
       previewHtml.replace(/\\/g, "/") +
-      `?export=1&scene=${encodeURIComponent(scene)}`;
+      `?export=1&scene=${encodeURIComponent(scene)}&color=${encodeURIComponent(color)}`;
     const capture = {
       outDir,
       frames: Array.from({ length: frameCount }, (_, i) =>

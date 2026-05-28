@@ -8,111 +8,951 @@
     <Metadata key="CLOCK_TYPE" value="DIGITAL" />
     <Metadata key="PREVIEW_TIME" value="10:08:00" />
 
-    <Scene backgroundColor="#ff000000">
-        <!-- Interactive boot (WebP): plays when face becomes visible, then holds first frame (no per-minute replay) -->
-        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive">
+    <UserConfigurations>
+        <!-- Text color configuration -->
+        <ColorConfiguration
+            id="theme_color"
+            displayName="Text Color"
+            defaultValue="green">
+            <ColorOption
+                id="green"
+                displayName="MU-TH-UR Green"
+                colors="#ff7af042" />
+            <ColorOption
+                id="amber"
+                displayName="Nostromo Amber"
+                colors="#ffffb000" />
+            <ColorOption
+                id="cyan"
+                displayName="Narcissus Cyan"
+                colors="#ff00e5ff" />
+            <ColorOption
+                id="white"
+                displayName="Weyland White"
+                colors="#ffffffff" />
+        </ColorConfiguration>
+
+        <!-- Active scene selection -->
+        <ListConfiguration
+            id="active_scene"
+            displayName="Boot Scene"
+            defaultValue="0">
+            <ListOption
+                id="0"
+                displayName="Interactive Boot" />
+            <ListOption
+                id="1"
+                displayName="Line Reveal" />
+            <ListOption
+                id="2"
+                displayName="Clear Flash" />
+        </ListConfiguration>
+
+        <!-- Toggle background CRT animation -->
+        <BooleanConfiguration
+            id="show_crt"
+            displayName="CRT Screen"
+            defaultValue="TRUE" />
+    </UserConfigurations>
+
+        <!-- ==================== CRT BACKGROUND ANIMATIONS ==================== -->
+
+        <!-- GREEN THEME CHANNELS (theme_color == 0) -->
+        <!-- Interactive boot (WebP): plays when scene 0 is selected, CRT is enabled, and theme is green -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive_green" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 0 ? ([CONFIGURATION.theme_color] == 0 ? 255 : 0) : 0) : 0">
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <AnimationController
-                play="ON_VISIBLE"
-                repeat="FALSE"
-                loopCount="1"
-                afterPlaying="FIRST_FRAME" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
             <AnimatedImage resource="boot" format="WEBP" />
         </PartAnimatedImage>
 
-        <!-- Ambient: shorter dim boot loop -->
-        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient" alpha="0">
-            <Variant mode="AMBIENT" target="alpha" value="255" />
+        <!-- Interactive line reveal (WebP): plays when scene 1 is selected, CRT is enabled, and theme is green -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="line_interactive_green" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 1 ? ([CONFIGURATION.theme_color] == 0 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="line" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive clear screen flash (WebP): plays when scene 2 is selected, CRT is enabled, and theme is green -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="clear_interactive_green" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 2 ? ([CONFIGURATION.theme_color] == 0 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="clear" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Ambient dim boot loop -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient_green" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="[CONFIGURATION.show_crt] ? ([CONFIGURATION.theme_color] == 0 ? 255 : 0) : 0" />
             <AnimationController play="ON_VISIBLE" repeat="TRUE" />
             <AnimatedImage resource="boot_ambient" format="WEBP" />
         </PartAnimatedImage>
 
+
+        <!-- AMBER THEME CHANNELS (theme_color == 1) -->
+        <!-- Interactive boot (WebP): plays when scene 0 is selected, CRT is enabled, and theme is amber -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive_amber" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 0 ? ([CONFIGURATION.theme_color] == 1 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="boot_amber" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive line reveal (WebP): plays when scene 1 is selected, CRT is enabled, and theme is amber -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="line_interactive_amber" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 1 ? ([CONFIGURATION.theme_color] == 1 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="line_amber" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive clear screen flash (WebP): plays when scene 2 is selected, CRT is enabled, and theme is amber -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="clear_interactive_amber" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 2 ? ([CONFIGURATION.theme_color] == 1 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="clear_amber" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Ambient dim boot loop -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient_amber" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="[CONFIGURATION.show_crt] ? ([CONFIGURATION.theme_color] == 1 ? 255 : 0) : 0" />
+            <AnimationController play="ON_VISIBLE" repeat="TRUE" />
+            <AnimatedImage resource="boot_ambient_amber" format="WEBP" />
+        </PartAnimatedImage>
+
+
+        <!-- CYAN THEME CHANNELS (theme_color == 2) -->
+        <!-- Interactive boot (WebP): plays when scene 0 is selected, CRT is enabled, and theme is cyan -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive_cyan" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 0 ? ([CONFIGURATION.theme_color] == 2 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="boot_cyan" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive line reveal (WebP): plays when scene 1 is selected, CRT is enabled, and theme is cyan -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="line_interactive_cyan" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 1 ? ([CONFIGURATION.theme_color] == 2 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="line_cyan" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive clear screen flash (WebP): plays when scene 2 is selected, CRT is enabled, and theme is cyan -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="clear_interactive_cyan" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 2 ? ([CONFIGURATION.theme_color] == 2 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="clear_cyan" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Ambient dim boot loop -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient_cyan" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="[CONFIGURATION.show_crt] ? ([CONFIGURATION.theme_color] == 2 ? 255 : 0) : 0" />
+            <AnimationController play="ON_VISIBLE" repeat="TRUE" />
+            <AnimatedImage resource="boot_ambient_cyan" format="WEBP" />
+        </PartAnimatedImage>
+
+
+        <!-- WHITE THEME CHANNELS (theme_color == 3) -->
+        <!-- Interactive boot (WebP): plays when scene 0 is selected, CRT is enabled, and theme is white -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive_white" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 0 ? ([CONFIGURATION.theme_color] == 3 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="boot_white" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive line reveal (WebP): plays when scene 1 is selected, CRT is enabled, and theme is white -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="line_interactive_white" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 1 ? ([CONFIGURATION.theme_color] == 3 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="line_white" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Interactive clear screen flash (WebP): plays when scene 2 is selected, CRT is enabled, and theme is white -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="clear_interactive_white" alpha="[CONFIGURATION.show_crt] ? ([CONFIGURATION.active_scene] == 2 ? ([CONFIGURATION.theme_color] == 3 ? 255 : 0) : 0) : 0">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" repeat="FALSE" loopCount="1" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="clear_white" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Ambient dim boot loop -->
+        <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_ambient_white" alpha="0">
+            <Variant mode="AMBIENT" target="alpha" value="[CONFIGURATION.show_crt] ? ([CONFIGURATION.theme_color] == 3 ? 255 : 0) : 0" />
+            <AnimationController play="ON_VISIBLE" repeat="TRUE" />
+            <AnimatedImage resource="boot_ambient_white" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Digital time (green terminal); thinner in ambient -->
         <!-- Digital time (green terminal); thinner in ambient -->
         <DigitalClock x="0" y="0" width="456" height="456">
-            <TimeText
-                x="0"
-                y="318"
-                width="456"
-                height="72"
-                format="hh:mm"
-                hourFormat="SYNC_TO_DEVICE"
-                align="CENTER"
-                alpha="255">
+            <!-- Even Seconds Clock Outline Layers (colon visible, e.g. "10:08") -->
+            <TimeText x="-2" y="154" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 == 0 ? 255 : 0">
                 <Variant mode="AMBIENT" target="alpha" value="0" />
-                <Font
-                    family="share_tech_mono"
-                    size="64"
-                    weight="NORMAL"
-                    slant="NORMAL"
-                    color="#ff7af042" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
             </TimeText>
-            <TimeText
-                x="0"
-                y="318"
-                width="456"
-                height="72"
-                format="hh:mm"
-                hourFormat="SYNC_TO_DEVICE"
-                align="CENTER"
-                alpha="0">
+            <TimeText x="2" y="154" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 == 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+            <TimeText x="-2" y="158" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 == 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+            <TimeText x="2" y="158" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 == 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+
+            <!-- Odd Seconds Clock Outline Layers (space separator, e.g. "10 08") -->
+            <TimeText x="-2" y="154" width="456" height="144" format="hh mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 != 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+            <TimeText x="2" y="154" width="456" height="144" format="hh mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 != 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+            <TimeText x="-2" y="158" width="456" height="144" format="hh mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 != 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+            <TimeText x="2" y="158" width="456" height="144" format="hh mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 != 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="#ff000000" />
+            </TimeText>
+
+            <!-- Even Seconds Clock Active Layer (colon visible, e.g. "10:08") -->
+            <TimeText x="0" y="156" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 == 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="[CONFIGURATION.theme_color]" />
+            </TimeText>
+
+            <!-- Odd Seconds Clock Active Layer (space separator, e.g. "10 08") -->
+            <TimeText x="0" y="156" width="456" height="144" format="hh mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="[SEC] % 2 != 0 ? 255 : 0">
+                <Variant mode="AMBIENT" target="alpha" value="0" />
+                <Font family="share_tech_mono" size="128" weight="NORMAL" slant="NORMAL" color="[CONFIGURATION.theme_color]" />
+            </TimeText>
+
+            <!-- Clock Ambient Layer (static thin "10:08" for battery optimization) -->
+            <TimeText x="0" y="156" width="456" height="144" format="hh:mm" hourFormat="SYNC_TO_DEVICE" align="CENTER" alpha="0">
                 <Variant mode="AMBIENT" target="alpha" value="255" />
-                <Font
-                    family="share_tech_mono"
-                    size="56"
-                    weight="THIN"
-                    slant="NORMAL"
-                    color="#ff7af042" />
+                <Font family="share_tech_mono" size="112" weight="THIN" slant="NORMAL" color="[CONFIGURATION.theme_color]" />
             </TimeText>
         </DigitalClock>
 
-        <!-- Date complication (default system DATE provider) -->
+        <!-- Slot 0: Date complication (default system DATE provider) -->
         <ComplicationSlot
-            x="56"
-            y="400"
-            width="160"
-            height="40"
+            x="50"
+            y="330"
+            width="80"
+            height="30"
             slotId="0"
             name="date_slot"
             displayName="complication_date"
-            supportedTypes="SHORT_TEXT">
+            supportedTypes="SHORT_TEXT LONG_TEXT MONOCHROMATIC_IMAGE SMALL_IMAGE RANGED_VALUE">
             <DefaultProviderPolicy
                 defaultSystemProvider="DATE"
                 defaultSystemProviderType="SHORT_TEXT" />
             <Complication type="SHORT_TEXT">
-                <PartText x="0" y="0" width="160" height="40">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
                     <Variant mode="AMBIENT" target="alpha" value="180" />
-                    <Text align="START" ellipsis="TRUE">
-                        <Font family="share_tech_mono" size="18" color="#ff7af042">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
                             <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
                 </PartText>
             </Complication>
+            <Complication type="RANGED_VALUE">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="LONG_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="MONOCHROMATIC_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active green icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="[CONFIGURATION.theme_color]" />
+                </PartImage>
+            </Complication>
+            <Complication type="SMALL_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
         </ComplicationSlot>
 
-        <!-- Battery complication (default WATCH_BATTERY provider) -->
+        <!-- Slot 1: Battery complication (default WATCH_BATTERY provider) -->
         <ComplicationSlot
-            x="240"
-            y="400"
-            width="160"
-            height="40"
+            x="142"
+            y="330"
+            width="80"
+            height="30"
             slotId="1"
             name="battery_slot"
             displayName="complication_battery"
-            supportedTypes="SHORT_TEXT RANGED_VALUE">
+            supportedTypes="SHORT_TEXT LONG_TEXT MONOCHROMATIC_IMAGE SMALL_IMAGE RANGED_VALUE">
             <DefaultProviderPolicy
                 defaultSystemProvider="WATCH_BATTERY"
                 defaultSystemProviderType="SHORT_TEXT" />
             <Complication type="SHORT_TEXT">
-                <PartText x="0" y="0" width="160" height="40">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
                     <Variant mode="AMBIENT" target="alpha" value="180" />
-                    <Text align="END" ellipsis="TRUE">
-                        <Font family="share_tech_mono" size="18" color="#ff7af042">
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
                             <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
                         </Font>
                     </Text>
                 </PartText>
             </Complication>
+            <Complication type="RANGED_VALUE">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="LONG_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="MONOCHROMATIC_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active green icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="[CONFIGURATION.theme_color]" />
+                </PartImage>
+            </Complication>
+            <Complication type="SMALL_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
         </ComplicationSlot>
+
+        <!-- Slot 2: Steps complication (default STEP_COUNT provider) -->
+        <ComplicationSlot
+            x="234"
+            y="330"
+            width="80"
+            height="30"
+            slotId="2"
+            name="steps_slot"
+            displayName="complication_steps"
+            supportedTypes="SHORT_TEXT LONG_TEXT MONOCHROMATIC_IMAGE SMALL_IMAGE RANGED_VALUE">
+            <DefaultProviderPolicy
+                defaultSystemProvider="STEP_COUNT"
+                defaultSystemProviderType="SHORT_TEXT" />
+            <Complication type="SHORT_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="RANGED_VALUE">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="LONG_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="MONOCHROMATIC_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active green icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="[CONFIGURATION.theme_color]" />
+                </PartImage>
+            </Complication>
+            <Complication type="SMALL_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+
+        <!-- Slot 3: Heart Rate complication (default HEART_RATE provider) -->
+        <ComplicationSlot
+            x="326"
+            y="330"
+            width="80"
+            height="30"
+            slotId="3"
+            name="heart_rate_slot"
+            displayName="complication_heart_rate"
+            supportedTypes="SHORT_TEXT LONG_TEXT MONOCHROMATIC_IMAGE SMALL_IMAGE RANGED_VALUE">
+            <DefaultProviderPolicy
+                defaultSystemProvider="HEART_RATE"
+                defaultSystemProviderType="SHORT_TEXT" />
+            <Complication type="SHORT_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="RANGED_VALUE">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="LONG_TEXT">
+                <!-- Outline NW -->
+                <PartText x="-1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline NE -->
+                <PartText x="1" y="-1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SW -->
+                <PartText x="-1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Outline SE -->
+                <PartText x="1" y="1" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="#ff000000">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+                <!-- Active Layer -->
+                <PartText x="0" y="0" width="80" height="30">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Text align="CENTER" ellipsis="TRUE">
+                        <Font family="share_tech_mono" size="16" color="[CONFIGURATION.theme_color]">
+                            <Template><![CDATA[%s]]><Parameter expression="[COMPLICATION.TEXT]" /></Template>
+                        </Font>
+                    </Text>
+                </PartText>
+            </Complication>
+            <Complication type="MONOCHROMATIC_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active green icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.MONOCHROMATIC_IMAGE]" color="[CONFIGURATION.theme_color]" />
+                </PartImage>
+            </Complication>
+            <Complication type="SMALL_IMAGE">
+                <!-- Black backing outline shadow -->
+                <PartImage x="26" y="1" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="0" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" color="#ff000000" />
+                </PartImage>
+                <!-- Active icon -->
+                <PartImage x="25" y="0" width="28" height="28" align="CENTER">
+                    <Variant mode="AMBIENT" target="alpha" value="180" />
+                    <Image resource="[COMPLICATION.SMALL_IMAGE]" />
+                </PartImage>
+            </Complication>
+        </ComplicationSlot>
+        <!-- Ambient node duplicate removed -->
     </Scene>
 </WatchFace>

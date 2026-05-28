@@ -1,0 +1,11 @@
+{
+  "scene": "boot_white",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 87,
+  "durationMs": 5800,
+  "createdAt": "2026-05-28T18:21:07.480Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=boot&color=white",
+  "webpPath": "assets-src/webp/boot_white.webp"
+}

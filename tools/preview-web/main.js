@@ -13,6 +13,51 @@
   const statusEl = document.getElementById("status");
   const stageEl = document.getElementById("stage");
   const safezoneToggle = document.getElementById("safezone-toggle");
+  const colorSelect = document.getElementById("color-select");
+  const crtToggle = document.getElementById("crt-toggle");
+
+  function getThemeColor() {
+    return params.get("color") || colorSelect?.value || "green";
+  }
+
+  function isCrtEnabled() {
+    const q = params.get("crt");
+    if (q === "1" || q === "true") {
+      return true;
+    }
+    if (q === "0" || q === "false") {
+      return false;
+    }
+    return crtToggle ? crtToggle.checked === true : true;
+  }
+
+  function applyThemeColor() {
+    const color = getThemeColor();
+    document.body.classList.remove("theme-green", "theme-amber", "theme-cyan", "theme-white");
+    document.body.classList.add(`theme-${color}`);
+    if (colorSelect) {
+      colorSelect.value = color;
+    }
+  }
+
+  function applyCrtToggle() {
+    const crtOn = isCrtEnabled();
+    if (stageEl) {
+      stageEl.classList.toggle("crt-off", !crtOn);
+    }
+    if (crtToggle) {
+      crtToggle.checked = crtOn;
+    }
+  }
+
+  if (colorSelect) {
+    colorSelect.addEventListener("change", applyThemeColor);
+  }
+  if (crtToggle) {
+    crtToggle.addEventListener("change", applyCrtToggle);
+  }
+  applyThemeColor();
+  applyCrtToggle();
 
   function isSafeZoneEnabled() {
     const q = params.get("safezone");
@@ -42,6 +87,56 @@
     safezoneToggle.addEventListener("change", applySafeZone);
   }
   applySafeZone();
+
+  // Mock Watchface Overlay Toggle & Clock Update
+  const mockOverlayToggle = document.getElementById("mock-overlay-toggle");
+  const mockOverlayEl = document.getElementById("mock-watchface-overlay");
+
+  function applyMockOverlay() {
+    if (!mockOverlayEl) return;
+    const show = mockOverlayToggle ? mockOverlayToggle.checked === true : true;
+    mockOverlayEl.style.display = show && !exportMode ? "block" : "none";
+  }
+
+  function updateMockClock() {
+    if (!mockOverlayEl) return;
+    const now = new Date();
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const clockEl = mockOverlayEl.querySelector(".mock-clock");
+    const seconds = now.getSeconds();
+    const separator = seconds % 2 === 0 ? ":" : " ";
+    if (clockEl) {
+      clockEl.textContent = `${hours}${separator}${minutes}`;
+    }
+
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const monthStr = months[now.getMonth()];
+    const day = now.getDate();
+    const dateEl = mockOverlayEl.querySelector(".comp-0");
+    if (dateEl) {
+      dateEl.textContent = `${monthStr} ${day}`;
+    }
+
+    const batteryEl = mockOverlayEl.querySelector(".comp-1");
+    if (batteryEl) {
+      if (navigator.getBattery) {
+        navigator.getBattery().then((battery) => {
+          batteryEl.textContent = `${Math.round(battery.level * 100)}%`;
+        });
+      } else {
+        batteryEl.textContent = "81%";
+      }
+    }
+  }
+
+  if (mockOverlayToggle) {
+    mockOverlayToggle.addEventListener("change", applyMockOverlay);
+  }
+  applyMockOverlay();
+  updateMockClock();
+  setInterval(updateMockClock, 1000);
+
 
   let mother = null;
   let playPromiseResolve = null;

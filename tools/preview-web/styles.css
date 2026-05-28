@@ -13,9 +13,58 @@
   --mother-green: #7af042;
   --mother-green-grad: #7df14a;
   --mother-green-bright: #80ff10;
+  --mother-glow-color: rgba(122, 240, 66, 0.45);
+  --mother-complication-glow: rgba(122, 240, 66, 0.35);
+  --mother-bg-glow-start: rgba(24, 104, 24, 0.75);
+  --mother-bg-glow-mid: rgba(6, 32, 6, 0.45);
+  --mother-bg-glow-end: rgba(0, 2, 0, 0.9);
   --mother-font: "Share Tech Mono", monospace;
   --mother-size: 456px;
   --mother-safe-diameter: 90%;
+}
+
+body.theme-green {
+  --mother-green: #7af042;
+  --mother-green-grad: #7df14a;
+  --mother-green-bright: #80ff10;
+  --mother-glow-color: rgba(122, 240, 66, 0.45);
+  --mother-complication-glow: rgba(122, 240, 66, 0.35);
+  --mother-bg-glow-start: rgba(24, 104, 24, 0.75);
+  --mother-bg-glow-mid: rgba(6, 32, 6, 0.45);
+  --mother-bg-glow-end: rgba(0, 2, 0, 0.9);
+}
+
+body.theme-amber {
+  --mother-green: #ffb000;
+  --mother-green-grad: #ffc107;
+  --mother-green-bright: #ffe082;
+  --mother-glow-color: rgba(255, 176, 0, 0.45);
+  --mother-complication-glow: rgba(255, 176, 0, 0.35);
+  --mother-bg-glow-start: rgba(104, 71, 24, 0.75);
+  --mother-bg-glow-mid: rgba(32, 22, 6, 0.45);
+  --mother-bg-glow-end: rgba(2, 1, 0, 0.9);
+}
+
+body.theme-cyan {
+  --mother-green: #00e5ff;
+  --mother-green-grad: #33ebff;
+  --mother-green-bright: #80f3ff;
+  --mother-glow-color: rgba(0, 229, 255, 0.45);
+  --mother-complication-glow: rgba(0, 229, 255, 0.35);
+  --mother-bg-glow-start: rgba(24, 88, 104, 0.75);
+  --mother-bg-glow-mid: rgba(6, 27, 32, 0.45);
+  --mother-bg-glow-end: rgba(0, 2, 2, 0.9);
+}
+
+body.theme-white {
+  --mother-green: #ffffff;
+  --mother-green-grad: #f5f5f5;
+  --mother-green-bright: #ffffff;
+  --mother-glow-color: rgba(255, 255, 255, 0.45);
+  --mother-complication-glow: rgba(255, 255, 255, 0.35);
+  --mother-bg-glow-start: rgba(80, 80, 80, 0.75);
+  --mother-bg-glow-mid: rgba(30, 30, 30, 0.45);
+  --mother-bg-glow-end: rgba(2, 2, 2, 0.9);
 }
 
 *,
@@ -47,10 +96,36 @@ body {
 #stage {
   width: var(--mother-size);
   height: var(--mother-size);
-  background: var(--mother-bg);
+  background: 
+    radial-gradient(
+      circle at center,
+      var(--mother-bg-glow-start) 0%,
+      var(--mother-bg-glow-mid) 50%,
+      var(--mother-bg-glow-end) 85%,
+      #000 100%
+    ),
+    linear-gradient(
+      to bottom,
+      rgba(18, 16, 16, 0) 50%,
+      rgba(0, 0, 0, 0.3) 50%
+    ),
+    linear-gradient(
+      90deg,
+      var(--mother-complication-glow) 0%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+  background-size: 100% 100%, 100% 3px, 3px 100%;
   overflow: hidden;
   position: relative;
   flex-shrink: 0;
+}
+
+#stage.crt-off {
+  background: #000 !important;
+}
+
+#stage.crt-off #mother_container {
+  display: none !important;
 }
 
 #stage.round-mask {
@@ -310,3 +385,70 @@ body.export-mode #app {
 body.export-mode #stage.show-safe-zone::after {
   opacity: 0;
 }
+
+.mock-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  display: block; /* Toggled via JS */
+  transition: opacity 0.15s ease;
+}
+
+.mock-clock {
+  position: absolute;
+  left: 0px;
+  top: 156px;
+  width: 456px;
+  height: 144px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mother-font);
+  font-size: 128px;
+  color: var(--mother-green);
+  text-shadow: 0 0 8px #000, 0 0 8px #000, 0 0 8px #000, 0 0 12px var(--mother-glow-color);
+}
+
+.mock-complication {
+  position: absolute;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--mother-font);
+  font-size: 16px;
+  color: var(--mother-green);
+  opacity: 0.85;
+  text-shadow: 0 0 4px #000, 0 0 4px #000, 0 0 4px #000, 0 0 4px var(--mother-complication-glow);
+}
+
+.comp-0 {
+  left: 50px;
+  top: 330px;
+  width: 80px;
+}
+
+.comp-1 {
+  left: 142px;
+  top: 330px;
+  width: 80px;
+}
+
+.comp-2 {
+  left: 234px;
+  top: 330px;
+  width: 80px;
+}
+
+.comp-3 {
+  left: 326px;
+  top: 330px;
+  width: 80px;
+}
+
+/* Hide mock overlay when exporting */
+body.export-mode .mock-overlay {
+  display: none !important;
+}
+

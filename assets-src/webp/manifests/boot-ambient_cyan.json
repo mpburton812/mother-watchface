@@ -1,0 +1,11 @@
+{
+  "scene": "boot-ambient_cyan",
+  "width": 456,
+  "height": 456,
+  "fps": 15,
+  "frameCount": 34,
+  "durationMs": 2267,
+  "createdAt": "2026-05-28T18:19:12.600Z",
+  "previewUrl": "file:///C:/Dev/mother-watchface/tools/preview-web/index.html?export=1&scene=boot-ambient&color=cyan",
+  "webpPath": "assets-src/webp/boot-ambient_cyan.webp"
+}
