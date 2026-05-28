@@ -9,11 +9,11 @@
     <Metadata key="PREVIEW_TIME" value="10:08:00" />
 
     <Scene backgroundColor="#ff000000">
-        <!-- Interactive boot animation (WebP); replays when face becomes visible and each minute -->
+        <!-- Interactive boot (WebP): plays when face becomes visible, then holds first frame (no per-minute replay) -->
         <PartAnimatedImage x="0" y="0" width="456" height="456" name="boot_interactive">
             <Variant mode="AMBIENT" target="alpha" value="0" />
             <AnimationController
-                play="ON_VISIBLE ON_NEXT_MINUTE"
+                play="ON_VISIBLE"
                 repeat="FALSE"
                 loopCount="1"
                 afterPlaying="FIRST_FRAME" />

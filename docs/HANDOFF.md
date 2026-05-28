@@ -123,17 +123,29 @@ Creates **`mother-watchface`** on GitHub (if missing) and sets `origin`. **Fix i
 | Drawable deploy copies | `watchface/src/main/res/drawable-nodpi/*.webp` from `assets-src/webp/` |
 | Build / install docs | [watchface/README.md](../watchface/README.md) |
 
-**Build (repo root, Windows):**
+**Build / install (repo root, Windows):**
 
 ```powershell
 cd "c:\Dev\watchface 0"
-.\gradlew.bat :watchface:assembleDebug
-adb install -r watchface\build\outputs\apk\debug\watchface-debug.apk
+.\scripts\install-watchface.ps1
+# or: .\gradlew.bat :watchface:assembleDebug  (set JAVA_HOME + ANDROID_HOME if needed)
 ```
 
 Package id: `com.mpburton812.motherwatchface`. APK outputs are gitignored.
 
-## Not done yet (Phase 4+)
+## Phase 4 done (device test & polish)
+
+| Item | Status |
+|------|--------|
+| `gradlew :watchface:assembleDebug` | Verified; set `JAVA_HOME` (Studio JBR) + `ANDROID_HOME` if `sdk.dir` not picked up (repo path has a space) |
+| `scripts/install-watchface.ps1` | adb device check → build → `install -r` → prints package; `-SetActive`, `-OpenPicker`, `-SkipBuild` |
+| WFF polish | Ambient `boot_ambient`; active `boot` **ON_VISIBLE** only (no per-minute replay); time + complication slots unchanged |
+| Test checklist | [docs/PHASE4-TEST.md](PHASE4-TEST.md) — emulator, Pixel Watch 4 adb, OPR, battery |
+| Build / install docs | [watchface/README.md](../watchface/README.md) troubleshooting table |
+
+**Still manual (Phase 4+):** run [PHASE4-TEST.md](PHASE4-TEST.md) on emulator and Pixel Watch 4; WFF validator; OPR soak; replace `preview.webp`.
+
+## Not done yet (Phase 5+)
 
 | Area | Status |
 |------|--------|
@@ -141,7 +153,7 @@ Package id: `com.mpburton812.motherwatchface`. APK outputs are gitignored.
 | **`line` / `clear` WebP in WFF** | Assets copied; not wired in XML (tap / periodic triggers) |
 | **`full` scene in repo** | Optional; export with `--scene full` or `--all --include-full` (long) |
 | **Scanlines / cursor / audio** | Not in preview (intentionally dropped for WFF path) |
-| **On-device polish** | OPR, ambient burn-in, validator / memory footprint, preview screenshot |
+| **On-device sign-off** | Checklist written; hardware OPR / battery soak not recorded in repo |
 | **Play Store / signing** | Not started |
 | **License** | TBD in README |
 
@@ -218,16 +230,15 @@ Same commands with forward slashes; install Node, ffmpeg, and Playwright deps pe
    node export.js --scene full
    ```
 
-7. **WFF package (Phase 3)**
+7. **WFF package (Phase 3–4)**
    ```powershell
    cd "c:\Dev\watchface 0"
-   .\gradlew.bat :watchface:assembleDebug
-   adb install -r watchface\build\outputs\apk\debug\watchface-debug.apk
+   .\scripts\install-watchface.ps1
    ```
-   See [watchface/README.md](../watchface/README.md).
+   See [watchface/README.md](../watchface/README.md), [PHASE4-TEST.md](PHASE4-TEST.md).
 
-8. **Suggested next milestone (Phase 4)**
-   - Sideload to Pixel Watch 4 / Wear emulator; tune ambient OPR and boot replay policy.
+8. **Suggested next milestone (Phase 5)**
+   - Complete hardware sign-off in [PHASE4-TEST.md](PHASE4-TEST.md).
    - Bundle Share Tech Mono; wire `line` / `clear` animations; run WFF validator before publish.
 
 ---
@@ -238,6 +249,7 @@ Same commands with forward slashes; install Node, ffmpeg, and Playwright deps pe
 mother-watchface/
 ├── docs/
 │   ├── HANDOFF.md          ← this file
+│   ├── PHASE4-TEST.md      ← device / OPR checklist
 │   └── PLANNING.md
 ├── tools/
 │   ├── preview-web/        # 456×456 GSAP preview
@@ -246,7 +258,8 @@ mother-watchface/
 ├── assets-src/
 │   └── webp/               # committed WebP + manifests (Phase 2)
 ├── scripts/
-│   └── create-github-repo.ps1
+│   ├── create-github-repo.ps1
+│   └── install-watchface.ps1
 └── README.md
 ```
 
