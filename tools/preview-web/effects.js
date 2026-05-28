@@ -62,7 +62,7 @@ class Line {
   animate() {
     const tl = gsap
       .timeline({ delay: this.delay })
-      .set(this.line_elm, { className: "line is-visible" })
+      .set(this.line_elm, { display: "grid", className: "line is-visible" })
       .set(this.chars, { opacity: 0, visibility: "visible" })
       .fromTo(
         this.line_elm,
@@ -93,7 +93,7 @@ class Line {
             "0px 0px 6px rgba(255,255,255,1), 0px 0px 15px rgba(255,255,255,1)",
         },
         {
-          color: "#7af042",
+          color: "#7df14a",
           textShadow:
             "0px 0px 6px rgba(255,255,255,0), 0px 0px 15px rgba(255,255,255,0)",
           duration: 0.45,
@@ -145,7 +145,16 @@ class ClearScreen {
     this.root_elm.appendChild(this.top_elm);
     this.root_elm.appendChild(this.bottom_elm);
 
-    gsap.set(this.root_elm, { opacity: 0 });
+    gsap.set(this.root_elm, {
+      display: "grid",
+      position: "absolute",
+      inset: 0,
+      gridTemplateColumns: "1fr",
+      gridTemplateRows: "1fr 1fr",
+      opacity: 0,
+      zIndex: 30,
+      pointerEvents: "none",
+    });
     gsap.set([this.top_elm, this.bottom_elm], {
       backgroundColor: "#80ff10",
       opacity: 0,
@@ -157,14 +166,10 @@ class ClearScreen {
       .timeline()
       .add(() => {
         this.mother_container_elm
-          .querySelectorAll(".line.is-visible, .boot_screen.is-active")
-          .forEach((l) => {
-            l.classList.remove("is-visible", "is-active");
-            if (l.classList.contains("line")) {
-              gsap.set(l, { display: "none" });
-            } else {
-              gsap.set(l, { display: "none" });
-            }
+          .querySelectorAll(".line, .boot_screen")
+          .forEach((el) => {
+            el.classList.remove("is-visible", "is-active");
+            gsap.set(el, { display: "none" });
           });
       })
       .set(this.root_elm, { opacity: 1 })
@@ -173,14 +178,15 @@ class ClearScreen {
         opacity: 0,
         stagger: 0.05,
         delay: 0.1,
-      });
+      })
+      .set(this.root_elm, { opacity: 0 });
   }
 }
 
 class BootScreen {
   constructor(opts) {
-    this.num_bars = opts.num_bars ?? 10;
-    this.num_lines = opts.num_lines ?? 18;
+    this.num_bars = opts.num_bars ?? 12;
+    this.num_lines = opts.num_lines ?? 22;
     this.line_sections = 4;
     this.details_screen_data = [
       [{ copy: "APOLLO CORE STARTUP", col_span: 2 }],
@@ -209,7 +215,7 @@ class BootScreen {
       ],
       [{ copy: "REBOOT COMPLETE" }, { copy: "Y" }],
     ];
-    this.chars = "AXYI@20K59VDH%#U1^>+E".split("");
+    this.chars = "AXYI@20K59VDH}#U1^>+E".split("");
     this.mother_container_elm =
       opts.mother_container_elm || document.querySelector("#mother_container");
     this.build();
@@ -218,6 +224,15 @@ class BootScreen {
   build() {
     this.root_elm = document.createElement("div");
     this.root_elm.classList.add("boot_screen");
+    gsap.set(this.root_elm, {
+      display: "grid",
+      gridTemplateRows: "1fr",
+      gridTemplateColumns: "1fr",
+      position: "absolute",
+      inset: 0,
+      alignItems: "center",
+      justifyItems: "center",
+    });
 
     this.random_chars_screen = document.createElement("div");
     this.random_chars_screen.classList.add("random_chars_screen");
@@ -404,6 +419,7 @@ class BootScreen {
       .add(() => {
         this.root_elm.classList.add("is-active");
         gsap.set(this.root_elm, { display: "grid" });
+        gsap.set(this.random_chars_screen, { opacity: 1 });
         gsap.set(this.bars_container, { opacity: 1 });
         this.charsBGAnimation();
         this.barsAnimation();

@@ -56,7 +56,7 @@ MU-TH-UR frame export
   npm run export -- --scene boot
 
 Options:
-  --scene <name>       boot | demo | line  (default: boot)
+  --scene <name>       boot | demo | full | line  (default: boot)
   --fps <n>            capture rate       (default: 15)
   --max-seconds <n>    safety cap         (default: 45)
   --out <dir>          output folder      (default: tools/export/output)

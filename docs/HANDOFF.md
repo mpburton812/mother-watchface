@@ -42,13 +42,16 @@ a538a4c Scaffold Tier B preview and export pipeline
 - **Remote:** `origin` → `https://github.com/mpburton812/mother-watchface.git`
 - **Branch:** `main` (tracks `origin/main`)
 
-### `tools/preview-web/`
+### `tools/preview-web/` (Phase 1 complete)
 
-Browser **456×456** preview of the CodePen-style UI (GSAP from CDN, manual character splitting).
+Browser **456×456** preview of the CodePen-style UI (**GSAP 3.12.5** pinned on CDN, manual character splitting).
 
-- **Scenes:** `boot`, `demo`, `line` (see `sequences.js`)
-- **Run:** open `index.html`, or `npx --yes serve -p 5173` in that folder → http://localhost:5173
-- **Export hooks:** `?export=1&scene=boot&autoplay=1`; API `window.__MOTHER_EXPORT__` (`ready`, `playSequence`, `reset`, `getState`, frame callbacks)
+- **Scenes:** `boot`, `demo`, `full` (CodePen `cmd_seq`), `line` — see `sequences.js`
+- **Parity:** gradient sweep, char stagger glow, boot random chars + bars + details, clear flash (no audio)
+- **Palette:** `#000`, `#7af042` / `#7df14a` / `#80ff10`, Share Tech Mono — CSS variables in `styles.css`
+- **Round mask:** 456×456 `.round-mask`; optional **safe-zone ring** (90% diameter) via `?safezone=1` or UI checkbox
+- **Run:** open `index.html`, or `npx --yes serve -p 5173` → http://localhost:5173
+- **Export hooks:** `?export=1&scene=boot&autoplay=1`; API `window.__MOTHER_EXPORT__`
 - **Capture root:** `[data-export-root]` / `#stage`
 
 Details: [tools/preview-web/README.md](../tools/preview-web/README.md)
@@ -90,15 +93,27 @@ Creates **`mother-watchface`** on GitHub (if missing) and sets `origin`. **Fix i
 
 ---
 
-## Not done yet
+## Phase 1 done (reference implementation)
+
+| Item | Status |
+|------|--------|
+| CodePen visual parity (no audio) | `effects.js` — Line, ClearScreen, BootScreen, Mother |
+| GSAP pinned | 3.12.5 in `index.html` + preview README |
+| Palette + round 456×456 | `styles.css` |
+| Safe-zone overlay | `?safezone=1` + checkbox |
+| Sequences | `boot`, `demo`, `full`, `line` |
+| Export smoke path | `node export.js --scene boot` from `tools/export` |
+
+## Not done yet (Phase 2+)
 
 | Area | Status |
 |------|--------|
 | **WFF XML** | `watchface/` is placeholder (`.gitkeep` only) |
 | **Watch APK / Android package** | Not started |
-| **Full CodePen parity** | Subset of sequences; no scanlines/cursor/audio parity |
-| **Audio** | Not in preview pipeline for WFF path |
-| **WebP → WFF wiring** | No `boot.webp` in repo; no WFF `<Bitmap>` / slot definitions |
+| **Export tuning** | fps/duration per scene, `full` scene length, WebP quality vs WFF limits |
+| **WebP in repo** | No committed `boot.webp`; ffmpeg assembly manual |
+| **WebP → WFF wiring** | No WFF `<Bitmap>` / slot definitions |
+| **Scanlines / cursor / audio** | Not in preview (intentionally dropped for WFF path) |
 | **On-device test** | No Android Studio project / sideload |
 | **Play Store / signing** | Not started |
 | **License** | TBD in README |
@@ -161,7 +176,7 @@ Same commands with forward slashes; install Node, ffmpeg, and Playwright deps pe
    cd tools/preview-web
    npx --yes serve -p 5173
    ```
-   Open http://localhost:5173 — try scenes `boot`, `demo`, `line`.
+   Open http://localhost:5173 — try scenes `boot`, `demo`, `full`, `line`; toggle safe zone with `?safezone=1`.
 
 5. **Export frames**
    ```bash

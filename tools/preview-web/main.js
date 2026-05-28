@@ -12,6 +12,36 @@
   const playBtn = document.getElementById("play-btn");
   const statusEl = document.getElementById("status");
   const stageEl = document.getElementById("stage");
+  const safezoneToggle = document.getElementById("safezone-toggle");
+
+  function isSafeZoneEnabled() {
+    const q = params.get("safezone");
+    if (q === "1" || q === "true") {
+      return true;
+    }
+    if (q === "0" || q === "false") {
+      return false;
+    }
+    return safezoneToggle?.checked === true;
+  }
+
+  function applySafeZone() {
+    if (!stageEl) {
+      return;
+    }
+    stageEl.classList.toggle("show-safe-zone", isSafeZoneEnabled());
+  }
+
+  if (safezoneToggle) {
+    const q = params.get("safezone");
+    if (q === "1" || q === "true") {
+      safezoneToggle.checked = true;
+    } else if (q === "0" || q === "false") {
+      safezoneToggle.checked = false;
+    }
+    safezoneToggle.addEventListener("change", applySafeZone);
+  }
+  applySafeZone();
 
   let mother = null;
   let playPromiseResolve = null;
