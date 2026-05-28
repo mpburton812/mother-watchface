@@ -10,53 +10,34 @@
     <Metadata key="PREVIEW_TIME" value="10:08:00" />
 
     <Scene backgroundColor="#ff000000">
-        <!-- Boot: cropped to terminal rect (not full-bleed) -->
-        <PartAnimatedImage
-            x="91"
-            y="72"
-            width="274"
-            height="220"
-            name="boot_interactive">
+        <!-- Terminal animations -->
+        <PartAnimatedImage x="91" y="72" width="274" height="220" alpha="255" name="boot_active">
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <AnimationController
-                play="ON_VISIBLE"
-                repeat="FALSE"
-                loopCount="1"
-                afterPlaying="FIRST_FRAME" />
+            <AnimationController play="ON_VISIBLE" loopCount="1" beforePlaying="FIRST_FRAME" afterPlaying="FIRST_FRAME" />
             <AnimatedImage resource="boot" format="WEBP" />
         </PartAnimatedImage>
 
-        <!-- Ambient: dim terminal boot loop -->
-        <PartAnimatedImage
-            x="91"
-            y="72"
-            width="274"
-            height="220"
-            name="boot_ambient"
-            alpha="0">
-            <Variant mode="AMBIENT" target="alpha" value="140" />
-            <AnimationController play="ON_VISIBLE" repeat="TRUE" />
-            <AnimatedImage resource="boot_ambient" format="WEBP" />
-        </PartAnimatedImage>
-
-        <!-- Computer-text decode inside terminal (after boot / on wake) -->
-        <PartAnimatedImage
-            x="91"
-            y="72"
-            width="274"
-            height="220"
-            name="computer_text">
+        <PartAnimatedImage x="91" y="72" width="274" height="220" alpha="255" name="computer_text_active">
             <Variant mode="AMBIENT" target="alpha" value="0" />
-            <AnimationController
-                play="ON_VISIBLE"
-                repeat="FALSE"
-                loopCount="1"
-                afterPlaying="FIRST_FRAME" />
+            <AnimationController play="ON_VISIBLE" loopCount="1" beforePlaying="FIRST_FRAME" afterPlaying="FIRST_FRAME" />
             <AnimatedImage resource="computer_text" format="WEBP" />
         </PartAnimatedImage>
 
-        <!-- Active time: live clock (under decode WebP; revealed when decode layer ends) -->
-        <DigitalClock x="0" y="296" width="456" height="72">
+        <PartAnimatedImage x="91" y="72" width="274" height="220" alpha="0" name="boot_ambient_loop">
+            <Variant mode="AMBIENT" target="alpha" value="140" />
+            <AnimationController play="ON_VISIBLE" repeat="TRUE" beforePlaying="FIRST_FRAME" afterPlaying="FIRST_FRAME" />
+            <AnimatedImage resource="boot_ambient" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Active time decode overlay (plays once per visibility) -->
+        <PartAnimatedImage x="0" y="192" width="456" height="72" alpha="255" name="time_decode_active">
+            <Variant mode="AMBIENT" target="alpha" value="0" />
+            <AnimationController play="ON_VISIBLE" loopCount="1" beforePlaying="FIRST_FRAME" afterPlaying="HIDE" />
+            <AnimatedImage resource="time_decode" format="WEBP" />
+        </PartAnimatedImage>
+
+        <!-- Active time -->
+        <DigitalClock x="0" y="192" width="456" height="72">
             <TimeText
                 x="0"
                 y="0"
@@ -69,28 +50,12 @@
                 <Variant mode="AMBIENT" target="alpha" value="0" />
                 <Font
                     family="share_tech_mono"
-                    size="56"
+                    size="88"
                     weight="NORMAL"
                     slant="NORMAL"
                     color="#ff7af042" />
             </TimeText>
         </DigitalClock>
-
-        <!-- Active time decode once per wake (Option C — baked WebP; WFF has no scramble logic) -->
-        <PartAnimatedImage
-            x="0"
-            y="296"
-            width="456"
-            height="72"
-            name="time_decode">
-            <Variant mode="AMBIENT" target="alpha" value="0" />
-            <AnimationController
-                play="ON_VISIBLE"
-                repeat="FALSE"
-                loopCount="1"
-                afterPlaying="REMOVE" />
-            <AnimatedImage resource="time_decode" format="WEBP" />
-        </PartAnimatedImage>
 
         <!-- Ambient Option D: large centered time; terminal motion hidden/dimmed above -->
         <DigitalClock x="0" y="168" width="456" height="120">
@@ -106,7 +71,7 @@
                 <Variant mode="AMBIENT" target="alpha" value="220" />
                 <Font
                     family="share_tech_mono"
-                    size="72"
+                    size="88"
                     weight="THIN"
                     slant="NORMAL"
                     color="#ff7af042" />
